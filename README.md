@@ -21,9 +21,9 @@ REMOVE ME: Detail your use of AI, listing of the prompts you used, and whether t
 ### Prompts to develop excersises and instructions (exmaple)
 These are the prompts that helped me determine the excercises and instructions for them for the build your workout feature:
 
->  Prompt 1: Write a short description of an arm workout for a training app
+####  Prompt 1: Write a short description of an arm workout for a training app
 
->> Response:
+#### Response:
 Title: Sculpted Arms Workout
 
 Description:
@@ -51,12 +51,12 @@ Take time to stretch your arms and shoulders to help prevent soreness and promot
 
 Remember to listen to your body and adjust the weights and reps as needed to suit your fitness level. Consistency is key, so make sure to incorporate this arm workout into your routine regularly to see results and build strength over time.
 
->> Utilisation:
+#### Utilisation:
 I didnt end up using the descriptions or extra information from this response as it didnt provide the information I felt I needed however this did identify the excersises I have used in the selection.
 
->  Prompt 2: Describe a bicep curl to someone who is just starting to work out
+####  Prompt 2: Describe a bicep curl to someone who is just starting to work out
 
->> Response:
+#### Response:
 Sure! A bicep curl is a fundamental exercise for strengthening the muscles in the front of your upper arms, called the biceps. Here's a simple description of how to do a bicep curl:
 
     Stand up straight with your feet shoulder-width apart. Hold a dumbbell in each hand, palms facing forward. Your arms should be fully extended down by your sides, with the dumbbells hanging at arm's length.
