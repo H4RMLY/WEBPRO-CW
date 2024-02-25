@@ -71,12 +71,12 @@ Sure! A bicep curl is a fundamental exercise for strengthening the muscles in th
 
 Remember to start with a lighter weight to get the form right and gradually increase the weight as you get stronger. It's important to perform the exercise with proper technique to prevent injury and effectively target the bicep muscles. If you're unsure about your form, consider seeking guidance from a fitness professional.
 
->> Utilisation: 
+#### Utilisation: 
 This provided me with the instructions in how to do the excersise which is used in the instructions box however I only used the first four steps and none of the extra information as i felt it was unnecessary.
 
-> Prompt 3: Describe a tricep dip to someone who has just started working out
+#### Prompt 3: Describe a tricep dip to someone who has just started working out
 
->> Response:
+#### Response:
 Of course! Tricep dips are a great exercise for targeting the muscles on the back of your upper arms, known as the triceps. Here's a simple description of how to do a tricep dip:
 
     Find a stable surface to perform the exercise on, such as a bench, chair, or even the edge of a sturdy table. Sit on the edge of the surface with your hands placed next to your hips, fingers gripping the edge, and your palms facing downwards. Your knees should be bent and feet flat on the floor, hip-width apart.
@@ -91,7 +91,7 @@ Of course! Tricep dips are a great exercise for targeting the muscles on the bac
 
 Remember to keep your shoulders down and back throughout the movement, and avoid shrugging or letting them hunch up towards your ears. Also, focus on engaging your core muscles to help stabilize your body throughout the exercise. If you find this version too challenging, you can modify by keeping your knees bent at a lesser angle or performing the exercise on a higher surface. As you get stronger, you can gradually increase the challenge by lowering yourself further or straightening your legs for a more advanced version.
 
->> Utilisation:
+#### Utilisation:
 Like the last response I used this for the instructions for the tricep dip excersise. Again I only used the first four steps and none of the extra description as I felt it wasnt relevant.
 
 >  how can I integrate QRST here?
