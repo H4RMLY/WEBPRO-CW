@@ -1,24 +1,38 @@
 # HIIT up2097531
+
+## Description
+This is a HIT workout web application that allows you to create your own workout or choose from a selection of preset sessions.
+
+## Installation
+1. CD into WEBPRO-CW-main if not already
+2. type npm i into your console to install dependencies
+3. type npm test into console to run the application
+
+## How to use
+Currently the index page of this app is incomplete so just click the 'Start you Workout' link at the top of the page to get to the working section.
+
+Currently you can view the descriptions of all the individual exercises and select them to add them to the workout. Once you have selected at least four exercises you can click start to go to the workout page which is what im currently working on.
+
+Note: Presets have partial implementation as you can select them however they have no content and act exactly like the individual exercises
 ## Key features
-REMOVE ME: Introduce the key features, paying special attention to the non-code ones.  Tell us briefly how to find & use them, and describes the reasons behind the design decisions you made in their implementation.  
+All working features are in new-workout.html. This can either be navigated to manually in the browser or by clicking the 'Start Your Workout' link at the top of the index page. Clicking the HIT logo on any page will bring you back to index.html.
 
-### Key Feature Name/Description.
-Words words words.  Words words words.
+### Workout Creation
+This feature allows you to create a workout comprised of at least four exercises within four different sections. At the moment there are only 3 exercises within each section however if I have time I will work to add more.
 
-### Key Another Feature Name/Description.
-Words words.  Words words words.
+This is quite easy to operate, all you need to do is click on whatever exercise youd like to add and it should be shown at the top of the page. If you would like to deselect an exercise just click on it again. This does work on mobile devices as well however the page styling isnt very adaptable to mobile
 
-Words words words words.  Words words words.
+### Exercise Description
+Next to the exercise selection buttons there is a box that will show a description of how to perform one repetition of each exercise. On desktop/laptop to see each description you just have to hover your mouse over each button and on mobile/touch screen devices just press and hold each button and the description should appear. 
 
-Words words words words words.  Words.
+Note: As mentioned before Presets have partial implementation at the moment so they do not have a description.
 
 ### Final Key Feature Name/Description.
 Words.
 
 ## AI
-REMOVE ME: Detail your use of AI, listing of the prompts you used, and whether the results formed or inspired part of your final submission and where we can see this (and if not, why not?). You may wish to group prompts into headings/sections - use markdown in any way that it helps you communicate your use of AI. 
+Currently the only usage of AI within this project has been to gain ideas for which exercises to implement and to create the descriptions for each.
 
-### Prompts to develop excersises and instructions (exmaple)
 These are the prompts that helped me determine the excercises and instructions for them for the build your workout feature:
 
 ####  Prompt 1: Write a short description of an arm workout for a training app
