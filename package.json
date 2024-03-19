@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "run": "node --watch server.js",
-    "test": "node --watch server.js"
+    "test": "node --watch server.js",
+    "start": "node --watch server.js"
   },
   "author": "Harrison Morley up2097531",
   "license": "ISC",

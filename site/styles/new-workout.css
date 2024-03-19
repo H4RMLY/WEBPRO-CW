@@ -22,7 +22,6 @@ body {
     line-height: 2em;
     cursor: pointer;
     background-color: #DAF1DE;
-    transition: all 0.4s;
     display: inline-block;
 }
 
@@ -46,6 +45,10 @@ body {
 }
 
 .start-workout:hover {
+    transform: scale(1.01);
+}
+
+.preset-button:hover {
     transform: scale(1.01);
 }
 

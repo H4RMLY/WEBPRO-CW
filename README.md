@@ -5,11 +5,11 @@ This is a HIT workout web application that allows you to create your own workout
 
 ## Installation
 1. CD into WEBPRO-CW-main if not already
-2. type npm i into your console to install dependencies
-3. type npm test into console to run the application
+2. Type 'npm i' into your console to install dependencies
+3. Type 'npm start' into console to run the application
 
 ## How to use
-Currently the index page of this app is incomplete so just click the 'Start you Workout' link at the top of the page to get to the working section.
+Currently the index page of this app is incomplete so just click the 'Start Your Workout' link at the top of the page to get to the working section.
 
 Currently you can view the descriptions of all the individual exercises and select them to add them to the workout. Once you have selected at least four exercises you can click start to go to the workout page which is what im currently working on.
 
