@@ -1,8 +1,14 @@
-* {
+:root {
     font-family: 'Tahoma';
     color: #051F20;
     margin: 0;
     padding: 0;
+
+    --greenOne: #DAF1DE;
+    --greenTwo: ;
+    --greenThree: ;
+    --greenFour: ;
+    --greenFive: ;
 }
 
 body {
@@ -10,7 +16,7 @@ body {
 }
 
 .main-content-container {
-    background-color: #DAF1DE;
+    background-color: var(--greenOne);
 }
 
 .workout-selection-button {

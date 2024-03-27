@@ -120,6 +120,11 @@ function getSelectedWorkouts(req, res) {
     res.json(selectedWorkouts);
 }
 
+function getIndividualWorkout(req, res){
+    let workout = selectedWorkouts[req.params.index];
+    res.json(workout);
+}
+
 app.get('/clear', clearWorkouts);
 app.post('/selectedWorkouts', express.json(), postSelectedWorkout);
 app.get('/instructions', getInstructions);
@@ -128,6 +133,7 @@ app.get('/instructions/:id', getInstruction);
 app.get('/daysExersised', getDaysExercised);
 app.post('/addDay', express.json(), addDay);
 app.get('/getSelectedWorkouts', getSelectedWorkouts);
+app.get('/getSelectedWorkouts/:index', getIndividualWorkout)
 
 
 app.listen(8080);
