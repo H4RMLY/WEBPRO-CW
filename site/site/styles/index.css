@@ -1,0 +1,184 @@
+* {
+    font-family: 'Tahoma';
+    color :var(--greenFive);
+    margin: 0;
+    padding: 0;
+
+    --greenOne: #DAF1DE;
+    --greenTwo: #8EB69B;
+    --greenThree: #235347;
+    --greenFour: #163832;
+    --greenFive: #051F20;
+}
+
+.hidden{
+    display: none;
+}
+
+.panel{
+    border: solid;
+    border-radius: 1em;
+    margin: 1em;
+    margin-top: 0;
+    text-align: center;
+    background-color: var(--greenOne);
+}
+
+#show-workout-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+
+    grid-template-areas: "title workout"
+                         "desc workout"
+                         "start workout";
+
+    padding: 2vw;
+}
+
+#build-title{
+    grid-area: title;
+    margin: 0.2em;
+    margin-right: 0.5em;
+}
+
+#build-desc{
+    grid-area: desc;
+    margin-top: 0.2em;
+    margin-right: 0.5em;
+}
+
+#start-workout {
+    grid-area: start;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #eef7f0;
+    border: solid;
+    padding: 0.5em;
+    border-radius: 10em;
+    font-size: 1.5em;
+    margin-right: 0.5em;
+}
+
+#selected-workouts-text{
+    grid-area: workout;
+    border: solid;
+    border-radius: 1em;
+    padding: 2vw;
+    text-align: center;
+    background-color: #eef7f0;
+}
+
+#custom{
+    grid-area: auto; 
+}
+
+#preset{
+    grid-area: auto;
+}
+
+nav{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.nav{
+    grid-area: auto;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #eef7f0;
+    border: solid;
+    margin: 1em;
+    padding: 0.5em;
+    border-radius: 10em;
+    transition: 0.1s;
+}
+
+.nav:hover{
+    margin:0.9em
+}
+
+.button-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.button-type{
+    margin: 0.5em;
+}
+
+.exercise-button {
+    text-align: center;
+    user-select: none;
+    font-weight: bold;
+    line-height: 2em;
+    margin: 0.5em;
+    border: solid;
+    border-radius: 1em;
+    cursor: pointer;
+    background-color: #eef7f0;
+    transition: 0.1s;
+}
+
+.exercise-button:hover{
+    margin: 0.3em;
+}
+
+.exercise-button > p {
+    user-select: none;
+    pointer-events: none;
+}
+
+.clicked{
+    background-color: var(--greenTwo);
+}
+
+#logo {
+    position: absolute;
+    right: 1em;
+    top: 0.5em;
+    width: 5em;
+}
+
+.colour-pallete {
+    width: 2em;
+    height: 2em;
+    border: solid;
+    border-radius: 0.75em;
+    margin:1em;
+    display: inline-block;
+    transition: 0.5s;
+}
+
+.up{
+    animation-duration: 0.2s;
+    animation-name: wave;
+    animation-iteration-count: 2;
+    animation-direction: alternate;
+}
+
+.one {
+    background-color: var(--greenOne);
+}
+
+
+.two {
+    background-color: var(--greenTwo);
+}
+
+.three {
+    background-color: var(--greenThree);
+}
+
+.four {
+    background-color: var(--greenFour);
+}
+
+.five {
+    background-color: var(--greenFive);
+}
+
+@keyframes wave {
+    from { transform : translateY(0);}
+    to   { transform : translateY( 10px );}
+}
