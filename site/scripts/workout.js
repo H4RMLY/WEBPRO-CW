@@ -1,17 +1,19 @@
 const elements = {};
-const workoutsList = [];
 
 function main() {
     handles();
     getWorkouts();
-    showWorkouts(0)
-
+    buttonEvents();
 }
 
 function handles() {
-    elements.currentWorkoutText = document.querySelector('.current-workout');
-    elements.nextWorkoutText = document.querySelector('.next-workout-text');
+    elements.currentExerciseText = document.querySelector('.current-workout');
+    elements.nextExerciseText = document.querySelector('.next-workout-text');
     elements.timer = document.querySelector('.timer');
+    elements.startButton = document.querySelector('.start');
+    elements.pauseButton = document.querySelector('.pause');
+    elements.backButton = document.querySelector('.previous');
+    elements.nextButton = document.querySelector('.next');
 }
 
 async function getWorkouts() {
@@ -19,29 +21,30 @@ async function getWorkouts() {
     if (response.ok) {
         retreivedWorkouts = await response.json();
     }
+    let workoutList = [];
     for (let workout of retreivedWorkouts) {
-        workoutsList.push(workout);
+        workoutList.push(workout.name);
     }
+    showExercises(workoutList, 0);
+}
+
+async function getExercise(index) {
+    const response = await fetch('getExercise/'+ index);
+    let retreivedExercise;
+    if (response.ok) {
+        retreivedExercise = await response.json();
+        return retreivedExercise;
+    }
+
 }
 
 async function timer(startTime) {
+    // startTime at 100 == 1 Second
     setInterval(function () {
         if (startTime > 0) {
             startTime -= 1;
         } else {
-            nextWorkout();
-        }
-        elements.timer.textContent = startTime;
-    }, 1000);
-}
-
-async function timer(startTime) {
-    // startTime at 1000 == 10 Seconds
-    setInterval(function () {
-        if (startTime > 0) {
-            startTime -= 1;
-        } else {
-            nextWorkout();
+            console.log('end')
         }
         const seconds = startTime.toString().slice(0, 2);
         const milliseconds = startTime.toString().slice(2, 4);
@@ -49,24 +52,22 @@ async function timer(startTime) {
     }, 10);
 }
 
-function showWorkouts(currentIndex) {
-    console.log(workoutsList);
-    console.log(workoutsList[currentIndex]);
-    // elements.currentWorkoutText.textContent = workoutsList[currentIndex];
-    // if ((currentIndex + 1) > workoutsList.length) {
-    //     elements.nextWorkoutText.textContent = 'Finish';
-    // } else {
-    //     elements.nextWorkoutText.textContent = workoutsList[currentIndex + 1].name;
-    // }
-}
-function showNextWorkout(nextWorkout) {
-    elements.nextWorkoutText.textContent = nextWorkout.name;
-
+function showExercises(workoutList, startIndex) {
+    elements.currentExerciseText.textContent = workoutList[startIndex];
+    elements.nextExerciseText.textContent = workoutList[startIndex+1];
 }
 
-function nextWorkout(startingIndex) {
-    const nextIndex = startingIndex + 1;
-    return nextIndex;
+function buttonEvents(){
+    elements.startButton.addEventListener('click', startTimer);
+}
+
+async function startTimer(){
+    let exercise = elements.currentExerciseText.textContent;
+    const response = await fetch('exerciseTime/'+ exercise);
+    if (response.ok){
+        let startTime = response.json();
+        timer(startTime);
+    }
 }
 
 main();
