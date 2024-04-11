@@ -1,0 +1,74 @@
+:root {
+    font-family: 'Tahoma';
+    color: var(--greenFive);
+    margin: 0;
+    padding: 0;
+
+    --greenOne: #DAF1DE;
+    --greenTwo: #8EB69B;
+    --greenThree: #235347;
+    --greenFour: #163832;
+    --greenFive: #051F20;
+}
+
+
+.container {
+    width: 50vw;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 1vh;
+    text-align: center;
+    border: solid;
+    border-radius: 1em;
+    background-color: var(--greenOne);
+}
+
+.button {
+    display: inline-block;
+    margin: 5vh;
+    cursor: pointer;
+}
+
+#logo {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    width: 7em;
+    transition: all 0.5s;
+}
+
+#logo:hover {
+    width: 8em;
+}
+
+#start {
+    width: 10vh;
+}
+
+#pause {
+    width: 10vh;
+}
+
+#next {
+    width: 10vh;
+}
+
+#previous {
+    width: 10vh;
+}
+
+.timer {
+    font-size: 10vw;
+}
+
+.current-workout {
+    margin-bottom: 1vh;
+    font-size: 10vh;
+}
+
+.next-workout {
+    margin-top: 1em;
+    font-size: 5vh;
+}
