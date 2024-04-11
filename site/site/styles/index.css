@@ -98,7 +98,7 @@ nav{
     margin:0.9em
 }
 
-.button-container{
+.custom-button-container{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
@@ -124,9 +124,98 @@ nav{
     margin: 0.3em;
 }
 
-.exercise-button > p {
+.button > p {
     user-select: none;
     pointer-events: none;
+}
+
+.preset-button{
+    text-align: left;
+    user-select: none;
+    line-height: 2em;
+    margin: 0.5em;
+    border: solid;
+    border-radius: 1em;
+    cursor: pointer;
+    background-color: #eef7f0;
+    transition: 0.1s;
+    padding: 0.5em;
+}
+
+.preset-button:hover{
+    margin: 0.3em;
+}
+
+#workout-control-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 10em 1fr 1fr 1fr;
+
+    grid-template-areas: "title title title title"
+                         "timer timer timer timer"
+                         "back play pause next"
+                         "next-workout next-workout next-workout next-workout"
+                         "cancel cancel cancel cancel";
+
+    padding: 1em;
+}
+
+#current-workout-text{
+    grid-area: title; 
+    font-size: 3em;
+}
+
+#timer{
+    grid-area: timer;
+    font-size: 8em;
+}
+
+.control-button{
+    height: 2em;
+    text-align: center;
+    user-select: none;
+    font-weight: bold;
+    line-height: 2em;
+    margin:0 1vw 0 1vw;
+    border: solid;
+    border-radius: 1em;
+    cursor: pointer;
+    background-color: #eef7f0;
+}
+
+#back-button{
+    grid-area: back;
+}
+
+#play-button{
+    grid-area: play;
+}
+
+#pause-button{
+    grid-area: pause;
+}
+
+#next-button{
+    grid-area: next;
+}
+
+#next-workout{
+    grid-area: next-workout;
+    margin: 0 1em 0 1em;
+    font-size: 2em;
+}
+
+#cancel-button{
+    grid-area: cancel;
+    height: 2em;
+}
+
+.instructions{
+    padding: 1em;
+}
+
+#instruction-header{
+    margin: 0 0 0.5em 0;
 }
 
 .clicked{
@@ -180,5 +269,5 @@ nav{
 
 @keyframes wave {
     from { transform : translateY(0);}
-    to   { transform : translateY( 10px );}
+    to   { transform : translateY( -10px );}
 }

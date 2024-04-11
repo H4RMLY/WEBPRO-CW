@@ -8,7 +8,7 @@ const workoutInstructions = [
     {
         id: "tricep-dips",
         name: "Tricep Dips",
-        time: "6000",
+        time: "100",
         content: "Find a stable surface to perform the exercise on, such as a bench, chair, or even the edge of a sturdy table. Sit on the edge of the surface with your hands placed next to your hips, fingers gripping the edge, and your palms facing downwards. Your knees should be bent and feet flat on the floor, hip-width apart. Slide your bottom off the edge of the surface, supporting your body weight with your arms. Walk your feet forward slightly, so your knees are bent at about a 90-degree angle. Your arms should be straight, but your elbows shouldn't be locked. Inhale as you slowly lower your body by bending your elbows, keeping them close to your body and pointing straight back. Lower yourself until your elbows are bent to about 90 degrees, or until you feel a stretch in your triceps. Exhale as you push through your palms and straighten your arms to lift your body back up to the starting position, fully extending your elbows without locking them."
     },
     {
@@ -21,7 +21,7 @@ const workoutInstructions = [
         id: "push-ups",
         name: "Push Ups",
         time: "4000",
-        content: "Start by lying face down on the floor.Place your hands flat on the ground, slightly wider than shoulder-width apart, with your fingers pointing forward. Push yourself up off the ground using your arms, while keeping your body straight from your head to your heels. Lower yourself back down until your chest nearly touches the ground. Push yourself back up to the starting position."
+        content: "Start by lying face down on the floor. Place your hands flat on the ground, slightly wider than shoulder-width apart, with your fingers pointing forward. Push yourself up off the ground using your arms, while keeping your body straight from your head to your heels. Lower yourself back down until your chest nearly touches the ground. Push yourself back up to the starting position."
     },
     {
         id: "squats",
@@ -78,25 +78,37 @@ const workoutInstructions = [
         content: "Start by standing with your feet shoulder-width apart and your arms at your sides. Lower your body into a squat position by bending your knees and placing your hands on the ground in front of you. Your hands should be shoulder-width apart. Kick your feet back so that you're in a push-up position. Your body should form a straight line from your head to your heels. Lower your chest to the ground by bending your elbows. Keep your core engaged and your back flat. Push yourself back up into the push-up position. Jump your feet back towards your hands so you're back in the squat position. From the squat position, explode upwards into a jump, reaching your arms overhead. Land softly on your feet and immediately lower back down into the next repetition."
     },];
 
+const presetWorkouts = [
+    {
+        id: "presetOne",
+        difficulty: "Easy",
+        description: "An easy going workout for people who just want to keep fit.",
+        includes: ["Squats", "Push-Ups", "Lunges", "Shoulder-Presses", "Planks"],
+        time: "18-20 minutes",
+    },
+    {
+        id: "presetTwo",
+        difficulty: "Intermediate",
+        description: "A workout for someone serious about getting in shape. This will require weights of some kind.",
+        includes: ["Goblet-Squats", "Push-Ups", "Dumbbell-Deadlifts", "Bent-Over-Dumbbell-Rows", "Dumbbell-Chest-Presses"],
+        time: "18-20 minutes",
+    },
+    {
+        id: "presetThree",
+        difficulty: "Hard",
+        description: "A more serious workout for real fitness heads. This will require weights of some kind.",
+        includes: ["squats", "push-ups", "lunges", "shoulder-press", "plank"],
+        time: "18-20 minutes",
+    },];
+
 let selectedWorkouts = [];
-
-let daysExercised = [];
-
-function getDaysExercised(req, res) {
-    res.json(daysExercised)
-}
-
-function addDay(req, res) {
-    const day = req.body;
-    daysExercised.push(day);
-    res.json(daysExercised);
-}
 
 function postSelectedWorkout(req, res) {
     const newWorkout = {
         name: req.body.name,
         time: req.body.time,
     };
+
     selectedWorkouts.push(newWorkout);
     res.json(selectedWorkouts);
 }
@@ -124,8 +136,14 @@ async function removeExercise(req, res) {
     res.json(selectedWorkouts);
 }
 
-function getSelectedWorkouts(req, res) {
+async function removeFirstExercise(req, res) {
+    selectedWorkouts.splice(0, 1);
     res.json(selectedWorkouts);
+}
+
+
+function getWorkoutLength(req, res) {
+    res.json(selectedWorkouts.length);
 }
 
 function getIndividualWorkout(req, res){
@@ -146,16 +164,24 @@ function getExerciseTime(req, res){
     }
 }
 
+function getPresets(req, res){
+    res.json(presetWorkouts);
+}
+
+function getWorkout(req, res){
+    res.json(selectedWorkouts);
+}
+
 app.post('/selectedExercise', express.json(), postSelectedWorkout);
+app.get('/getWorkout', getWorkout);
 app.get('/instructions', getInstructions);
+app.get('/presets', getPresets);
 app.get('/remove/:exercise', removeExercise);
+app.get('/removeFirst', removeFirstExercise);
 app.get('/instructions/:id', getInstruction);
-app.get('/daysExersised', getDaysExercised);
-app.post('/addDay', express.json(), addDay);
-app.get('/getSelectedWorkouts', getSelectedWorkouts);
+app.get('/getWorkoutLength', getWorkoutLength);
 app.get('/getExercise/:index', getIndividualWorkout);
 app.get('/clear', clearWorkout);
 app.get('/exerciseTime/:exercise', getExerciseTime);
-
 
 app.listen(8080);
