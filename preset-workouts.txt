@@ -25,7 +25,7 @@ Easy preset
         Rest: 30-60 seconds between sets
     
 Intermediate preset
-        Goblet Squats (with a dumbbell or kettlebell):
+    Goblet Squats (with a dumbbell or kettlebell):
         Reps: 10-12
         Sets: 3
         Rest: 60 seconds between sets

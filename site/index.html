@@ -1,8 +1,8 @@
 <!doctype html>
 <title>Start Your Workout</title>
 <meta charset=utf-8>
-<link rel="stylesheet" href="./styles/index.css">
-<script defer src="./scripts/index.js"></script>
+<link rel="stylesheet" href="index.css">
+<script defer src="index.js"></script>
 
 <header>
     <a href="index.html"><img id="logo" src="./assets/HIT-CW-Logo.png" alt="Logo"></a>
@@ -24,6 +24,7 @@
     <h2 class="button-type">Custom Workout</h2>
     <section class="custom-button-container">
     </section>
+    <div id="more-exercises" class="button">More</div>
 </div>
 
 <div id="preset-button-panel" class="panel hidden">
@@ -48,8 +49,8 @@
         <p id="selected-workouts-text"></p>
     </div>
     <nav class="panel">
-        <div class="nav button" id="custom">Custom</div>
-        <div class="nav button" id="preset">Preset</div>
+        <div class="nav" id="custom">Custom</div>
+        <div class="nav" id="preset">Preset</div>
     </nav>
 </section>
 </template>
@@ -76,9 +77,9 @@
 
 <template id="preset-button-template">
     <div class="preset-button button">
-        <h3 class="difficulty">Difficulty</h3>
-        <p class="preset-description">Description</p>
-        <p class="included-exercises">Exercises</p>
-        <p class="preset-time">Time</p>
+        <h3 class="preset-button-content difficulty">Difficulty</h3>
+        <p class="preset-button-content preset-description">Description</p>
+        <p class="preset-button-content included-exercises">Exercises</p>
+        <p class="preset-button-content preset-time">Time</p>
     </div>
 </template>
