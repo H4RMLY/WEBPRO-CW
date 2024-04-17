@@ -31,7 +31,7 @@
 
     grid-template-areas: "title workout"
                          "desc workout"
-                         "start workout";
+                         "start clear";
 
     padding: 2vw;
 }
@@ -57,7 +57,19 @@
     padding: 0.5em;
     border-radius: 10em;
     font-size: 1.5em;
-    margin-right: 0.5em;
+    margin: 0.5em
+}
+
+#clear-workout {
+    grid-area: clear;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #eef7f0;
+    border: solid;
+    padding: 0.5em;
+    border-radius: 10em;
+    font-size: 1.5em;
+    margin: 0.5em;
 }
 
 #selected-workouts-text{

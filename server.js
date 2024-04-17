@@ -188,7 +188,7 @@ function getWorkout(req, res){
     res.json(selectedWorkouts);
 }
 
-function populateWorkoutWithPreset(req, res){
+function populateWorkoutWithPreset2(req, res){
     //Finds the preset from the get request id
     for (const preset of presetWorkouts) {
         if (preset.id === req.params.id) {
@@ -210,6 +210,14 @@ function populateWorkoutWithPreset(req, res){
         }
     }
     res.json(selectedWorkouts);
+}
+
+function populateWorkoutWithPreset(req, res){
+    for (const preset of presetWorkouts) {
+        if (preset.id === req.params.id) {
+            res.json(preset.includes);
+        }
+    }
 }
 
 app.post('/selectedExercise', express.json(), postSelectedWorkout);

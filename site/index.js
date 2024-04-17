@@ -4,6 +4,7 @@ let workoutControl = {current : undefined, previous : undefined, next : undefine
 let timerOn = false;
 let paused = false;
 let timerState = '00000';
+let presetSelected = false;
 
 function main() {
     mainHandles();
@@ -47,6 +48,7 @@ function buildShowWorkout(){
     elements.workoutBuilder.append(panel);
 
     const startButton = document.querySelector('#start-workout');
+    const clearButton = document.querySelector('#clear-workout');
     const customButton = document.querySelector('#custom');
     const presetButton = document.querySelector('#preset');
 
@@ -54,7 +56,8 @@ function buildShowWorkout(){
     startButton.addEventListener('click', startWorkout);
     customButton.addEventListener('click', showCustomButtons);
     presetButton.addEventListener('click', showPresetButtons);
-    
+    clearButton.addEventListener('click', clearWorkout);
+
     // Adds the panel to the panels object in elements for later reference
     elements.panels['workoutBuilder'] = elements.workoutBuilder;
 }
@@ -158,12 +161,28 @@ async function buildPresetButtons(){
     }
 }
 
-function showPanel(panel){
-    elements.panels[panel].classList.remove('hidden');
+// Animation timing for boxes at the top of the screen
+async function bumpBoxes(){
+    const boxes = document.querySelectorAll('.colour-pallete');
+    for (let box of boxes){
+       const x = await awaitThis(box, 10);
+    }
 }
 
-function hidePanel(panel){
-    elements.panels[panel].classList.add('hidden');
+// Continued animation timing for boxes
+function awaitThis(box, x){
+    return new Promise((resolve) => {
+        setTimeout(() => {box.classList.add('up'); resolve(x);}, 150);
+        box.classList.remove('up');
+    });
+}
+
+function showPanel(panelName){
+    elements.panels[panelName].classList.remove('hidden');
+}
+
+function hidePanel(panelName){
+    elements.panels[panelName].classList.add('hidden');
 }
 
 function hideCustomButtons(){
@@ -199,17 +218,19 @@ function showPresetButtons(){
     clearWorkout();
 }
 
+// Event handler for the start workout button on the build workout panel
 async function startWorkout(){
     const workout = await getWorkout();
 
     let selectedExercisesText = document.querySelector('#selected-workouts-text')
-
+    // Checks if the workout has at least four exercises in it
     if (workout.length < 4) {
         let oldText = selectedExercisesText.textContent;
         selectedExercisesText.textContent = 'Please select at least four workouts or one preset workout.';
         setTimeout(function () {
             selectedExercisesText.textContent = oldText;
         }, 1200);
+    // If the workout has at least four exercises in it then the panel will switch to the workout control panel
     } else {
         paused = false;
         bumpBoxes();
@@ -223,11 +244,20 @@ async function startWorkout(){
     }
 }
 
+/* Populates the workout control object with the first two exercises
+ The workoutControl object keeps track of the current next and previous exercises */
+ function populateWorkoutControl(workout){
+    workoutControl.current = workout[0]
+    workoutControl.next = workout[1]
+}
+
+// Event handler for the start button on the workout control panel
 function startExercise(){
     paused = false;
     timer()
 }
 
+// Event handler for the cancel button on the workout control panel
 function cancelWorkout(){
     pauseExercise()
     bumpBoxes()
@@ -237,27 +267,12 @@ function cancelWorkout(){
     clearWorkout()
 }
 
+// Event handler for the pause button on the workout control panel
 function pauseExercise(){
     paused = true;
 }
 
-// Animation timing for boxes at the top of the screen
-async function bumpBoxes(){
-    const boxes = document.querySelectorAll('.colour-pallete');
-    for (let box of boxes){
-       const x = await awaitThis(box, 10);
-    }
-}
-
-// Continued animation timing for boxes
-function awaitThis(box, x){
-    return new Promise((resolve) => {
-        setTimeout(() => {box.classList.add('up'); resolve(x);}, 150);
-        box.classList.remove('up');
-    });
-}
-
-// Event for adding a clicked exercise to the custom workout
+// Event for adding a selected exercise to the custom workout
 function addToWorkout(e){
     let selectedExercise = e.target.dataset.name;
     let selectedExerciseTime = e.target.dataset.time;
@@ -269,7 +284,8 @@ function addToWorkout(e){
     }
 }
 
-// Posts clicked exercise to server so it can be added to the custom workout with its time (time is handled server side)
+/* Posts selected exercise to server so it can be added to the custom workout with its time and filler index
+   (Index is handled server side) */
 async function postWorkout(exerciseName, exerciseTime, exerciseIndex) {
     const payload = { name: exerciseName, time: exerciseTime, index: exerciseIndex };
 
@@ -287,18 +303,40 @@ async function postWorkout(exerciseName, exerciseTime, exerciseIndex) {
     showSelectedWorkout(updatedWorkoutList);
 }
 
+// Event handler for adding a preset workout to the custom workout
 async function addPreset(e){
-    e.target.classList.toggle("clicked");
-    let updatedWorkoutList;
-    if (e.target.classList.contains("clicked")) {
-        const response = await fetch('addPreset/' + e.target.dataset.id);
-        if (response.ok) {
-            updatedWorkoutList = await response.json();
-            showSelectedWorkout(updatedWorkoutList);
+        e.target.classList.toggle("clicked");
+        // Checks if a preset is already selected
+        if (e.target.classList.contains("clicked")) {
+            if(presetSelected === false){
+                presetSelected = true;
+                let includedExercises;
+                // Fetches preset data from the server based off of the id in the buttons dataset
+                const response = await fetch('addPreset/' + e.target.dataset.id);
+                if (response.ok) {
+                    includedExercises = await response.json();
+                    /* Iterates through all the exercises included within the preset and adds them individually to the workout
+                       as if the user had clicked them in the custom workout panel */
+                    for (const exerciseName of includedExercises){
+                        const exerciseObj = await getCurrentInstruction(exerciseName);
+                        postWorkout(exerciseObj.name, exerciseObj.time, '0');
+                    }
+                }
+            // If preset has already been selected this code blocks you from adding another one
+            } else {
+                e.target.classList.toggle("clicked");
+                let selectedExercisesText = document.querySelector('#selected-workouts-text')
+                let oldText = selectedExercisesText.textContent;
+                selectedExercisesText.textContent = 'You can only select one preset';
+                setTimeout(function () {
+                    selectedExercisesText.textContent = oldText;
+                }, 1200);
+            }
+        // Allows you to deselect a selected preset by selecting it again like with the custom buttons
+        } else {
+            presetSelected = false;
+            clearWorkout();
         }
-    } else {
-        clearWorkout();
-    }
 }
 
 // Code for showing the current contents of the custom workout
@@ -359,16 +397,20 @@ async function clearWorkout(){
 // This just resets all styling for selected buttons back to default
 function clearSelection(){
     let selected = document.querySelectorAll('.clicked');
+    presetSelected = false;
     for (let button of selected){
         button.classList.toggle("clicked");
     }
 }
 
+// This is the timer for each exercise which is updated every 10th of a second
 async function timer() {
-    // startTime at 100 == 1 Second
+    // timerState at 100 = 1 Second
+    // Having a timer on variable means when the timer is running the user cannot change the exercise unless it is stopped
     timerOn = true;
         const timer = setInterval(function () {
             if (paused !== true){
+                // Timer state is a global variable so the timer wont reset after it has been paused
                 if (timerState > 0) {
                     timerState -= 1;
                 } else {
@@ -376,6 +418,7 @@ async function timer() {
                     nextExercise();
                     clearInterval(timer);
                 }
+                // This is the formatting for splitting the seconds and milliseconds
                 const seconds = timerState.toString().slice(0, 2);
                 const milliseconds = timerState.toString().slice(2, 4);
                 elements.timerBody.textContent = seconds + "." + milliseconds;
@@ -386,21 +429,19 @@ async function timer() {
     }, 10);
 }
 
-function populateWorkoutControl(workout){
-    workoutControl.current = workout[0]
-    workoutControl.next = workout[1]
-}
-
-function showCurrentWorkout(){
+/* Formatting for the workout control panel which handles the name of the current and next exercise,
+ the timer before it has started and the instructions bellow the control panel */
+async function showCurrentWorkout(){
     timerState = workoutControl.current.time
     elements.currentWorkoutText.textContent = workoutControl.current.name;
     elements.nextWorkoutText.textContent = workoutControl.next.name;
-
-    getCurrentInstruction(workoutControl.current.name);
-
     elements.timerBody.textContent = workoutControl.current.time / 100;
+
+    const instruction = await getCurrentInstruction(workoutControl.current.name);
+    elements.instructionText.textContent = instruction.content;
 }
 
+// Fetches the custom workout from the server
 async function getWorkout(){
     const response = await fetch('getWorkout');
     let workout;
@@ -410,38 +451,37 @@ async function getWorkout(){
     return workout;
 }
 
+// Fetches the specified exercise by name from the server with all its content
 async function getCurrentInstruction(exerciseName){
     const response = await fetch('instructions/'+ exerciseName);
-    
     let currentInstruction;
     if (response.ok) {
         currentInstruction = await response.json();
+        return currentInstruction;
     }
-    elements.instructionText.textContent = currentInstruction.content;
 }
 
+// Allows navigation to the previous exercise using the previous button
 async function previousExercise(){
     if (workoutControl.previous !== undefined && timerOn !== true) {
         const workout = await getWorkout();
-    
+        // Shifts all exercises in the workoutControl object back by one
         workoutControl.next = workoutControl.current;
-    
         workoutControl.current = workoutControl.previous;
-    
         if (workout[workoutControl.current.index - 1] === undefined){
             workoutControl.previous = undefined;
         } else {
             workoutControl.previous = workout[workoutControl.current.index - 1];
         }
     }
-
     showCurrentWorkout();
 }
 
+// Allows navigation to the next exercise using the previous button
 async function nextExercise(){
     if(timerOn === false){
         const workout = await getWorkout();
-    
+        // Shifts all exercises in the workoutControl object back by one
         workoutControl.current = workoutControl.next;
         if (workout[workoutControl.next.index + 1] === undefined){
             workoutControl.next = {name: "Finished", time: "00000", index: "0"};
@@ -449,12 +489,8 @@ async function nextExercise(){
             workoutControl.next = workout[workoutControl.next.index + 1]
         }
         workoutControl.previous = workout[workoutControl.current.index - 1];
-
         showCurrentWorkout();
     }
 }
-
-//instead of traversing the workout just remove the first exercise in the array after its been completed 
-//(possibly add it to a completed workout array so it can be refered to later)
 
 main();
