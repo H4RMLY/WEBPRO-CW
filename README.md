@@ -9,23 +9,26 @@ This is a HIT workout web application that allows you to create your own workout
 3. Type 'npm start' into console to run the application
 
 ## How to use
-Currently the index page of this app is incomplete so just click the 'Start Your Workout' link at the top of the page to get to the working section.
+When the page has loaded you should be shown the workout builder with two buttons allowing you to show either preset workouts or individual exercises that you can add to your workout. Once you select at least four individual exercises or one preset then you can click start to change the screen to the workout controller. 
 
-Currently you can view the descriptions of all the individual exercises and select them to add them to the workout. Once you have selected at least four exercises you can click start to go to the workout page which is what im currently working on.
+You can navigate through the workout using the arrow buttons and start the timer for each exercise using the play button. You can press the play button again to pause the timer. In order to navigate through the workout the timer must be paused. If needed you can cancel the workout which will clear it and bring you back to the builder. Currently when you finish your workout it will just change the text within the cancel button to make it clear that the workout has ended and that is how you get out of the controller. 
 
-Note: Presets have partial implementation as you can select them however they have no content and act exactly like the individual exercises
+## Feature Plans
+At the moment I plan to create an account system so you can save your workouts and use them as presets.
+
 ## Key features
-All working features are in new-workout.html. This can either be navigated to manually in the browser or by clicking the 'Start Your Workout' link at the top of the index page. Clicking the HIT logo on any page will bring you back to index.html.
+Overall the main change is that I have re-built the whole app so it is more inline with the one page brief instead of using multiple pages. 
 
 ### Workout Creation
-This feature allows you to create a workout comprised of at least four exercises within four different sections. At the moment there are only 3 exercises within each section however if I have time I will work to add more.
+This feature allows you to create a workout comprised of at least four exercises or one preset workout.
 
-This is quite easy to operate, all you need to do is click on whatever exercise youd like to add and it should be shown at the top of the page. If you would like to deselect an exercise just click on it again. This does work on mobile devices as well however the page styling isnt very adaptable to mobile
+This is quite easy to operate, all you need to do is select whether you want to view the individual exercises or the preset workouts then just click on each exercise you would like to add. If you need to deselect anything you can just click on the exercise again or click the clear button under the custom workout which will deselect all exercises.
 
 ### Exercise Description
-Next to the exercise selection buttons there is a box that will show a description of how to perform one repetition of each exercise. On desktop/laptop to see each description you just have to hover your mouse over each button and on mobile/touch screen devices just press and hold each button and the description should appear. 
+Under the exercise selection buttons there is a box that will show a description of how to perform one repetition of each exercise. On desktop/laptop to see each description you just have to hover your mouse over each button and on mobile/touch screen devices just press and hold each button and the description should appear. 
 
-Note: As mentioned before Presets have partial implementation at the moment so they do not have a description.
+### Workout Control
+This is the second main feature of the app and allows the user to navigate through their created workout out. Also included is a built in timer which tracks seconds and milliseconds that can be started and paused at any time. The Exercise description is still present here and will automatically show how to do the current excercise in the workout. 
 
 ### Final Key Feature Name/Description.
 Words.

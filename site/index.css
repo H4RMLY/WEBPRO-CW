@@ -4,6 +4,7 @@
     margin: 0;
     padding: 0;
 
+    --zero: #eef7f0;
     --greenOne: #DAF1DE;
     --greenTwo: #8EB69B;
     --greenThree: #235347;
@@ -52,7 +53,7 @@
     grid-area: start;
     cursor: pointer;
     font-weight: bold;
-    background-color: #eef7f0;
+    background-color: var(--zero);
     border: solid;
     padding: 0.5em;
     border-radius: 10em;
@@ -64,7 +65,7 @@
     grid-area: clear;
     cursor: pointer;
     font-weight: bold;
-    background-color: #eef7f0;
+    background-color: var(--zero);
     border: solid;
     padding: 0.5em;
     border-radius: 10em;
@@ -75,10 +76,12 @@
 #selected-workouts-text{
     grid-area: workout;
     border: solid;
-    border-radius: 1em;
+    border-radius: 3em;
     padding: 2vw;
     text-align: center;
-    background-color: #eef7f0;
+    background-color: var(--zero);
+    margin: 0 0.5em 0 0.5em;
+    font-weight: bold;
 }
 
 #custom{
@@ -98,7 +101,7 @@ nav{
     grid-area: auto;
     cursor: pointer;
     font-weight: bold;
-    background-color: #eef7f0;
+    background-color: var(--zero);
     border: solid;
     margin: 1em;
     padding: 0.5em;
@@ -136,7 +139,7 @@ nav{
     border: solid;
     border-radius: 1em;
     cursor: pointer;
-    background-color: #eef7f0; 
+    background-color: var(--zero); 
 }
 
 .button > p {
@@ -152,7 +155,7 @@ nav{
     border: solid;
     border-radius: 1em;
     cursor: pointer;
-    background-color: #eef7f0;
+    background-color: var(--zero);
     transition: 0.1s;
     padding: 0.5em;
 }
@@ -173,7 +176,7 @@ nav{
 
     grid-template-areas: "title title title title"
                          "timer timer timer timer"
-                         "back play pause next"
+                         "back play play next"
                          "next-workout next-workout next-workout next-workout"
                          "cancel cancel cancel cancel";
 
@@ -200,7 +203,7 @@ nav{
     border: solid;
     border-radius: 1em;
     cursor: pointer;
-    background-color: #eef7f0;
+    background-color: var(--zero);
 }
 
 #back-button{
@@ -209,10 +212,6 @@ nav{
 
 #play-button{
     grid-area: play;
-}
-
-#pause-button{
-    grid-area: pause;
 }
 
 #next-button{
@@ -243,18 +242,45 @@ nav{
 }
 
 #logo {
-    position: absolute;
+    float: right;
     right: 1em;
-    top: 0.5em;
-    width: 5em;
+    margin: 0.5em 0.5em 0 0.5em;
+    width: 4em;
 }
 
+#login{
+    float: left;
+    text-align: center;
+    user-select: none;
+    font-weight: bold;
+    line-height: 2em;
+    margin: 0.5em 1em 0 1em;
+    border: solid;
+    border-radius: 1em;
+    cursor: pointer;
+    background-color: var(--zero); 
+    padding: 0 0.5em 0 0.5em;
+    height: 2em;
+    vertical-align: top;
+}
+
+@media only screen and (max-width: 521.333px) {
+     #login{
+        float: none;
+        width: 4em;
+        margin: 0 0.5em 0.5em 0.5em;
+     }
+
+     header{
+        margin: 0.5em;
+     }
+}
 .colour-pallete {
     width: 2em;
     height: 2em;
     border: solid;
     border-radius: 0.75em;
-    margin:1em;
+    margin: 0.5em 1em 0.5em 0.5em;
     display: inline-block;
     transition: 0.5s;
 }

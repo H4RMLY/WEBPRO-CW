@@ -2,9 +2,10 @@ const elements = {};
 const templates = {};
 let workoutControl = {current : undefined, previous : undefined, next : undefined};
 let timerOn = false;
-let paused = false;
+let paused = true;
 let timerState = '00000';
 let presetSelected = false;
+
 
 function main() {
     mainHandles();
@@ -13,8 +14,10 @@ function main() {
     showPanel('workoutBuilder');
     buildCustomButtons();
     buildPresetButtons();
-    clearWorkout()
+    clearWorkout();
 }
+
+window.addEventListener('load', main);
 
 // Grabs handles for important elements/templates and puts them into an object called respective of their type for later reference
 function mainHandles() {
@@ -34,6 +37,7 @@ function mainHandles() {
     templates.customButton = document.querySelector('#custom-button-template');
 }
 
+// Grabs important handles on the workout controller that couldnt be before the start button clicked
 function controlHandles(){
     elements.timerBody = document.querySelector('#timer');
     elements.currentWorkoutText = document.querySelector('#current-workout-text');
@@ -71,15 +75,13 @@ function buildWorkoutControl(){
 
     const backButton = document.querySelector('#back-button');
     const playButton = document.querySelector('#play-button');
-    const pauseButton = document.querySelector('#pause-button');
     const nextButton = document.querySelector('#next-button');
     const cancelButton = document.querySelector('#cancel-button');
 
-    playButton.addEventListener('click', startExercise);
+    playButton.addEventListener('click', timerControl);
     cancelButton.addEventListener('click', cancelWorkout);
     nextButton.addEventListener('click', nextExercise);
-    backButton.addEventListener('click', previousExercise);
-    pauseButton.addEventListener('click', pauseExercise);  
+    backButton.addEventListener('click', previousExercise); 
 
     // Adds the panel to the panels object in elements for later reference
     elements.panels['workoutControl'] = elements.controlPanel;
@@ -177,13 +179,9 @@ function awaitThis(box, x){
     });
 }
 
-function showPanel(panelName){
-    elements.panels[panelName].classList.remove('hidden');
-}
+function showPanel(panelName){ elements.panels[panelName].classList.remove('hidden'); }
 
-function hidePanel(panelName){
-    elements.panels[panelName].classList.add('hidden');
-}
+function hidePanel(panelName){ elements.panels[panelName].classList.add('hidden'); }
 
 function hideCustomButtons(){
     if (!elements.customButtonPanel.classList.contains('hidden')){
@@ -232,7 +230,7 @@ async function startWorkout(){
         }, 1200);
     // If the workout has at least four exercises in it then the panel will switch to the workout control panel
     } else {
-        paused = false;
+        paused = true;
         bumpBoxes();
         hideAllButtons();
         hidePanel('workoutBuilder');
@@ -241,25 +239,20 @@ async function startWorkout(){
         controlHandles();
         populateWorkoutControl(workout)
         showCurrentWorkout()
+        elements.timerBody.style.fontSize = "8em";
     }
 }
 
 /* Populates the workout control object with the first two exercises
  The workoutControl object keeps track of the current next and previous exercises */
  function populateWorkoutControl(workout){
-    workoutControl.current = workout[0]
-    workoutControl.next = workout[1]
-}
-
-// Event handler for the start button on the workout control panel
-function startExercise(){
-    paused = false;
-    timer()
+    workoutControl.current = workout[0];
+    workoutControl.next = workout[1];
 }
 
 // Event handler for the cancel button on the workout control panel
 function cancelWorkout(){
-    pauseExercise()
+    paused = true;
     bumpBoxes()
     hidePanel('workoutControl');
     showPanel('workoutBuilder');
@@ -268,8 +261,15 @@ function cancelWorkout(){
 }
 
 // Event handler for the pause button on the workout control panel
-function pauseExercise(){
-    paused = true;
+function timerControl(){
+    const button = document.querySelector('#play-button');
+    paused = !paused;
+    if (paused) {
+        button.textContent = "⯈";   
+    } else {
+        button.textContent = "ǁ";
+        timer(timerState);
+    }
 }
 
 // Event for adding a selected exercise to the custom workout
@@ -342,7 +342,7 @@ async function addPreset(e){
 // Code for showing the current contents of the custom workout
 function showSelectedWorkout(content) {
     let selectedExercisesText = document.querySelector('#selected-workouts-text')
-    let selectedExercises = 'Current Selected: ';
+    let selectedExercises = 'Currently Selected: ';
     // This handles the formatting depending on if the custom workout is empty or not
     if (content.length > 0) {
         for (const exercise of content) {
@@ -410,7 +410,7 @@ async function timer() {
     timerOn = true;
         const timer = setInterval(function () {
             if (paused !== true){
-                // Timer state is a global variable so the timer wont reset after it has been paused
+                // Timer state is a global variable so the timer can be resumed at the time it was paused at
                 if (timerState > 0) {
                     timerState -= 1;
                 } else {
@@ -435,8 +435,12 @@ async function showCurrentWorkout(){
     timerState = workoutControl.current.time
     elements.currentWorkoutText.textContent = workoutControl.current.name;
     elements.nextWorkoutText.textContent = workoutControl.next.name;
-    elements.timerBody.textContent = workoutControl.current.time / 100;
-
+    if (workoutControl.current.name === "Finished"){
+        endWorkout();
+    } else {
+        elements.timerBody.textContent = workoutControl.current.time / 100;
+    }
+    
     const instruction = await getCurrentInstruction(workoutControl.current.name);
     elements.instructionText.textContent = instruction.content;
 }
@@ -493,4 +497,9 @@ async function nextExercise(){
     }
 }
 
-main();
+function endWorkout() {
+    elements.timerBody.style.fontSize = "3em";
+    elements.timerBody.textContent = "Congratulations on completing your workout!";
+    document.querySelector('#cancel-button').textContent = "Back to Home";
+}
+
