@@ -1,4 +1,5 @@
-* {
+:root {
+    font-size: xx-large;
     font-family: 'Tahoma';
     color :var(--greenFive);
     margin: 0;
@@ -17,9 +18,9 @@
 }
 
 .panel{
-    border: solid;
-    border-radius: 1em;
-    margin: 1em;
+    border: solid 0.2rem;
+    border-radius: 1rem;
+    margin: 1rem;
     margin-top: 0;
     text-align: center;
     background-color: var(--greenOne);
@@ -28,25 +29,24 @@
 #show-workout-container{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
 
     grid-template-areas: "title workout"
                          "desc workout"
                          "start clear";
 
-    padding: 2vw;
+    padding: 1rem;
 }
 
 #build-title{
     grid-area: title;
-    margin: 0.2em;
-    margin-right: 0.5em;
+    margin: 0.2rem;
+    margin-right: 0.5rem;
 }
 
 #build-desc{
     grid-area: desc;
-    margin-top: 0.2em;
-    margin-right: 0.5em;
+    margin-top: 0.2rem;
+    margin-right: 0.5rem;
 }
 
 #start-workout {
@@ -54,11 +54,12 @@
     cursor: pointer;
     font-weight: bold;
     background-color: var(--zero);
-    border: solid;
-    padding: 0.5em;
-    border-radius: 10em;
-    font-size: 1.5em;
-    margin: 0.5em
+    padding: 0.5rem;
+    border: solid 0.2rem;
+    border-radius: 10rem;
+    font-size: 1.5rem;
+    margin: 1rem;
+    height: 1em;
 }
 
 #clear-workout {
@@ -66,21 +67,22 @@
     cursor: pointer;
     font-weight: bold;
     background-color: var(--zero);
-    border: solid;
-    padding: 0.5em;
-    border-radius: 10em;
-    font-size: 1.5em;
-    margin: 0.5em;
+    border: solid 0.2rem;
+    padding: 0.5rem;
+    border-radius: 10rem;
+    font-size: 1.5rem;
+    margin: 1rem;
+    height: 1em;
 }
 
 #selected-workouts-text{
     grid-area: workout;
-    border: solid;
-    border-radius: 3em;
+    border: solid 0.2rem;
+    border-radius: 3rem;
     padding: 2vw;
     text-align: center;
     background-color: var(--zero);
-    margin: 0 0.5em 0 0.5em;
+    margin: 0 0.5rem 0 0.5rem;
     font-weight: bold;
 }
 
@@ -102,15 +104,15 @@ nav{
     cursor: pointer;
     font-weight: bold;
     background-color: var(--zero);
-    border: solid;
-    margin: 1em;
-    padding: 0.5em;
-    border-radius: 10em;
+    border: solid 0.2rem;
+    margin: 1rem;
+    padding: 0.5rem;
+    border-radius: 10rem;
     transition: 0.1s;
 }
 
 .nav:hover{
-    margin:0.9em
+    margin:0.9rem
 }
 
 .custom-button-container{
@@ -119,25 +121,24 @@ nav{
 }
 
 .button-type{
-    margin: 0.5em;
+    margin: 0.5rem;
 }
 
 .exercise-button {
-    transition: 0.1s;
+    transition: 0.2s;
 }
 
 .exercise-button:hover{
-    margin: 0.3em;
+    margin: 0.3rem;
 }
 
 .button{
     text-align: center;
     user-select: none;
     font-weight: bold;
-    line-height: 2em;
     margin: 0.5em;
-    border: solid;
-    border-radius: 1em;
+    border: solid 0.2em;
+    border-radius: 1.5em;
     cursor: pointer;
     background-color: var(--zero); 
 }
@@ -150,14 +151,13 @@ nav{
 .preset-button{
     text-align: left;
     user-select: none;
-    line-height: 2em;
-    margin: 0.5em;
-    border: solid;
-    border-radius: 1em;
+    margin: 0.5rem;
+    border: solid 0.2rem;
+    border-radius: 1rem;
     cursor: pointer;
     background-color: var(--zero);
     transition: 0.1s;
-    padding: 0.5em;
+    padding: 0.5rem;
 }
 
 .preset-button-content{
@@ -166,13 +166,12 @@ nav{
 }
 
 .preset-button:hover{
-    margin: 0.3em;
+    margin: 0.3rem;
 }
 
 #workout-control-container{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 10em 1fr 1fr 1fr;
 
     grid-template-areas: "title title title title"
                          "timer timer timer timer"
@@ -180,28 +179,28 @@ nav{
                          "next-workout next-workout next-workout next-workout"
                          "cancel cancel cancel cancel";
 
-    padding: 1em;
+    padding: 1rem;
 }
 
 #current-workout-text{
     grid-area: title; 
-    font-size: 3em;
+    font-size: 3rem;
 }
 
 #timer{
     grid-area: timer;
-    font-size: 8em;
+    font-size: 8rem;
 }
 
 .control-button{
-    height: 2em;
+    height: 2rem;
     text-align: center;
     user-select: none;
     font-weight: bold;
-    line-height: 2em;
+    line-height: 2rem;
     margin:0 1vw 0 1vw;
-    border: solid;
-    border-radius: 1em;
+    border: solid 0.2rem;
+    border-radius: 1rem;
     cursor: pointer;
     background-color: var(--zero);
 }
@@ -220,21 +219,21 @@ nav{
 
 #next-workout{
     grid-area: next-workout;
-    margin: 0 1em 0 1em;
-    font-size: 2em;
+    margin: 0 1rem 0 1rem;
+    font-size: 2rem;
 }
 
 #cancel-button{
     grid-area: cancel;
-    height: 2em;
+    height: 2rem;
 }
 
 .instructions{
-    padding: 1em;
+    padding: 1rem;
 }
 
 #instruction-header{
-    margin: 0 0 0.5em 0;
+    margin: 0 0 0.5rem 0;
 }
 
 .clicked{
@@ -243,9 +242,9 @@ nav{
 
 #logo {
     float: right;
-    right: 1em;
-    margin: 0.5em 0.5em 0 0.5em;
-    width: 4em;
+    right: 1rem;
+    margin: 0.5rem 0.5rem 0 0.5rem;
+    width: 4rem;
 }
 
 #login{
@@ -253,34 +252,23 @@ nav{
     text-align: center;
     user-select: none;
     font-weight: bold;
-    line-height: 2em;
-    margin: 0.5em 1em 0 1em;
-    border: solid;
-    border-radius: 1em;
+    line-height: 2rem;
+    margin: 0.5rem 1rem 0 1rem;
+    border: solid 0.2rem;
+    border-radius: 1rem;
     cursor: pointer;
     background-color: var(--zero); 
-    padding: 0 0.5em 0 0.5em;
-    height: 2em;
+    padding: 0 0.5rem 0 0.5rem;
+    height: 2rem;
     vertical-align: top;
 }
 
-@media only screen and (max-width: 521.333px) {
-     #login{
-        float: none;
-        width: 4em;
-        margin: 0 0.5em 0.5em 0.5em;
-     }
-
-     header{
-        margin: 0.5em;
-     }
-}
 .colour-pallete {
-    width: 2em;
-    height: 2em;
-    border: solid;
-    border-radius: 0.75em;
-    margin: 0.5em 1em 0.5em 0.5em;
+    width: 2rem;
+    height: 2rem;
+    border: solid 0.2rem;
+    border-radius: 0.75rem;
+    margin: 0.5rem 1rem 0.5rem 0.5rem;
     display: inline-block;
     transition: 0.5s;
 }
@@ -317,3 +305,22 @@ nav{
     from { transform : translateY(0);}
     to   { transform : translateY( -10px );}
 }
+
+@media (max-width: 1000px) {
+    #login{
+        float: none;
+        width: 4rem;
+        margin: 0 0.5rem 0.5rem 0.5rem;
+    }
+    
+    header{
+        margin: 0.5rem;
+     }
+}
+
+@media (min-width: 1000px) {
+    :root{
+        font-size: large;
+    }
+}
+

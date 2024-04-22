@@ -87,6 +87,10 @@ function buildWorkoutControl(){
     elements.panels['workoutControl'] = elements.controlPanel;
 }
 
+function buildLogin(){
+    
+}
+
 // Builds the custom workout buttons within the buttons panel from the custom button template
 async function buildCustomButtons(){
     // Fetches exercises stored within the server
