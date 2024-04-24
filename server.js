@@ -8,7 +8,16 @@ const userAccounts = [
     {
         username: "mellissapearl",
         name: "Melissa Butler",
-        savedWorkouts: [],
+        savedWorkouts: [{
+            name : "Monday Morning",
+            description: "My monday morning workout",
+            includes: ["Squats", "Push Ups", "Lunges", "Shoulder Presses", "Plank"]
+        },
+        {
+            name : "Wednesday Morning",
+            description: "My wednesday morning workout",
+            includes: ["Squats", "Push Ups", "Lunges", "Shoulder Presses", "Plank"]
+        }],
         workoutsCompleted: 0,
     },
     {
@@ -209,34 +218,22 @@ function getWorkout(req, res){
     res.json(selectedWorkouts);
 }
 
-function populateWorkoutWithPreset2(req, res){
-    //Finds the preset from the get request id
-    for (const preset of presetWorkouts) {
-        if (preset.id === req.params.id) {
-            //If the preset is found then it iterates through each exercise in the preset
-            for (const exercise of preset.includes){
-                //Builds an object with the exercise details and adds it to the custom workout for each exercise
-                for(const instruction of workoutInstructions) {
-                    if (instruction.name === exercise){
-                        const newWorkout = {
-                            name: instruction.name,
-                            time: instruction.time,
-                            index: "0",
-                        };
-                        selectedWorkouts.push(newWorkout);
-                        assignIndexes()
-                    }
-                }
-            }
-        }
-    }
-    res.json(selectedWorkouts);
-}
-
 function populateWorkoutWithPreset(req, res){
     for (const preset of presetWorkouts) {
         if (preset.id === req.params.id) {
             res.json(preset.includes);
+        }
+    }
+}
+
+function getAccounts(req, res) {
+    res.json(userAccounts);
+}
+
+function getSavedExercises(req, res) {
+    for (const user of userAccounts) {
+        if (user.username === req.params.user){
+            res.json(user.savedWorkouts);
         }
     }
 }
@@ -249,5 +246,7 @@ app.get('/presets', getPresets);
 app.get('/remove/:exercise', removeExercise);
 app.get('/instructions/:name', getInstruction);
 app.get('/clear', clearWorkout);
+app.get('/accounts', getAccounts);
+app.get('/savedExercises/:user', getSavedExercises);
 
 app.listen(8080);

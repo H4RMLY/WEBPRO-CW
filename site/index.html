@@ -16,6 +16,7 @@
     <div class="colour-pallete five"></div>
     <div id="login">Log in</div>
 </header>
+<p id="logged-in-as">Not currently logged in</p>
 
 <div id="workout-builder">
 </div>
@@ -23,8 +24,11 @@
 <div id="control-panel" class="hidden">  
 </div>
 
-<div id="login-panel" class="hidden"> 
+<div id="login-panel" class="hidden panel"> 
     <h1>Log in</h1>
+    <section class="login-container">
+    </section>
+    <div id="hide-login" class="button">Back</div>
 </div>
 
 <div id="custom-button-panel" class="panel hidden">
@@ -74,10 +78,10 @@
     </section>
 </template>
 
-<template id="login-template">
-    <div id="login-container">
-        <h3>Account name</h3>
-        <p>Account username</p>
+<template id="login-button-template">
+    <div class="account-button button">
+        <h3 class="account-name">Account name</h3>
+        <p class="account-username">Account username</p>
     </div>
 </template>
 
@@ -94,5 +98,13 @@
         <p class="preset-button-content preset-description">Description</p>
         <p class="preset-button-content included-exercises">Exercises</p>
         <p class="preset-button-content preset-time">Time</p>
+    </div>
+</template>
+
+<template id="saved-button-template">
+    <div class="saved-button button">
+        <h3 class="saved-button-content saved-name">Name</h3>
+        <p class="saved-button-content saved-description">Description</p>
+        <p class="saved-button-content saved-exercises">Exercises</p>
     </div>
 </template>

@@ -148,6 +148,11 @@ nav{
     pointer-events: none;
 }
 
+.button > h3 {
+    user-select: none;
+    pointer-events: none;
+}
+
 .preset-button{
     text-align: left;
     user-select: none;
@@ -167,6 +172,12 @@ nav{
 
 .preset-button:hover{
     margin: 0.3rem;
+}
+
+.saved-button-content{
+    user-select: none;
+    pointer-events: none;
+    text-align:left;
 }
 
 #workout-control-container{
