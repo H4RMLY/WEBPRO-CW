@@ -238,7 +238,20 @@ function getSavedExercises(req, res) {
     }
 }
 
+function addSaved(req, res) {
+    for (const account of userAccounts){
+        if(account.username === req.body.user){
+            for (const workout of account.savedWorkouts){
+                if (workout.name === req.body.name){
+                    res.json(workout.includes);
+                }
+            }
+        }
+    }
+}
+
 app.post('/selectedExercise', express.json(), postSelectedWorkout);
+app.post('/addSaved', express.json(), addSaved);
 app.get('/addPreset/:id', populateWorkoutWithPreset);
 app.get('/getWorkout', getWorkout);
 app.get('/instructions', getInstructions);

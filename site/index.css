@@ -13,8 +13,18 @@
     --greenFive: #051F20;
 }
 
+body{
+    margin: 0;
+    padding: 0;
+}
+
 .hidden{
-    display: none;
+    display: none !important;
+}
+
+#logged-in-as{
+    margin: 0 1rem 0.5rem 1rem;
+    opacity: 60%;
 }
 
 .panel{
@@ -35,6 +45,10 @@
                          "start clear";
 
     padding: 1rem;
+}
+
+#workout-builder{
+    margin-top:0.5em;
 }
 
 #build-title{
@@ -254,24 +268,40 @@ nav{
 #logo {
     float: right;
     right: 1rem;
-    margin: 0.5rem 0.5rem 0 0.5rem;
+    margin: 0.5rem 1em 0 0.5rem;
     width: 4rem;
 }
+#login-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "login save"
+}
 
-#login{
-    float: left;
+.header-button{
     text-align: center;
     user-select: none;
     font-weight: bold;
     line-height: 2rem;
-    margin: 0.5rem 1rem 0 1rem;
     border: solid 0.2rem;
     border-radius: 1rem;
     cursor: pointer;
     background-color: var(--zero); 
     padding: 0 0.5rem 0 0.5rem;
     height: 2rem;
-    vertical-align: top;
+}
+
+#login{
+    position: absolute;
+    left: 1em;
+    grid-area: login;
+    width: 5em;
+}
+
+#save-workout{
+    position: absolute;
+    grid-area: save;
+    width:1.5rem;
+    right: 1rem;
 }
 
 .colour-pallete {
@@ -292,6 +322,7 @@ nav{
 }
 
 .one {
+    margin-left: 1em;
     background-color: var(--greenOne);
 }
 
@@ -318,11 +349,6 @@ nav{
 }
 
 @media (max-width: 1000px) {
-    #login{
-        float: none;
-        width: 4rem;
-        margin: 0 0.5rem 0.5rem 0.5rem;
-    }
     
     header{
         margin: 0.5rem;
@@ -332,6 +358,14 @@ nav{
 @media (min-width: 1000px) {
     :root{
         font-size: large;
+    }
+
+    #login{
+        width: 5em;
+    }
+    
+    #save-workout{
+        width:1.5rem;
     }
 }
 
