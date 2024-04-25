@@ -124,8 +124,11 @@ async function buildLogin(){
 
     const backButton = document.querySelector('#hide-login');
     const loginButton = document.querySelector('#login'); 
+    const saveButton = document.querySelector('#save-workout');
     backButton.addEventListener('click', loginBackButton);
     loginButton.addEventListener('click', loginButtonFunction);
+    saveButton.addEventListener('click', saveWorkoutButton);
+
 }
 
 // Builds the custom workout buttons within the buttons panel from the custom button template
@@ -428,7 +431,26 @@ async function addPreset(e){
     }
 }
 
+async function saveWorkoutButton(){
+    const workout = await getWorkout();
+    if (workout.length > 4){
+        saveWorkout();
+    }
+}
+
 // ------------------ All Functions used outside buttons ------------------ //
+
+// TODO: Make tmeplate to add name and description to workout
+async function saveWorkout(){
+    const workout = await getWorkout();
+    const payload = { name: "tempName", description: "tempDesc", includes: workout, user: currentLoggedIn};
+    const response = await fetch('saveWorkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+    });
+    if (response.ok) {console.log('Workout Saved');}
+}
 
 async function addUserWorkouts(username){
     const response = await fetch('savedExercises/' + username);

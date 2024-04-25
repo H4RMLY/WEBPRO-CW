@@ -12,6 +12,7 @@
   "author": "Harrison Morley up2097531",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security"
   }
 }

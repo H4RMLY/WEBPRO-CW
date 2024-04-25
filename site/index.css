@@ -271,14 +271,16 @@ nav{
     margin: 0.5rem 1em 0 0.5rem;
     width: 4rem;
 }
+
 #login-grid{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-areas: "login save"
+    grid-template-areas: "login save";
+    margin:0;
+    padding: 0 1rem 0 1rem;
 }
 
 .header-button{
-    text-align: center;
     user-select: none;
     font-weight: bold;
     line-height: 2rem;
@@ -291,17 +293,18 @@ nav{
 }
 
 #login{
-    position: absolute;
-    left: 1em;
+    text-align: center;
     grid-area: login;
     width: 5em;
 }
 
-#save-workout{
-    position: absolute;
+#save-workout-container{
+    text-align: right;
     grid-area: save;
-    width:1.5rem;
-    right: 1rem;
+}
+
+#save-workout{
+    float:right;
 }
 
 .colour-pallete {
