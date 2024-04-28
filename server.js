@@ -138,10 +138,22 @@ async function saveWorkout(req, res){
     }
 }
 
+async function clearSavedWorkouts(req, res){
+    for (const user of accounts.users){
+        if(user.username === req.params.user){
+            user.savedWorkouts = [];
+            await writeAccounts();
+            await readAccounts();
+            res.json("Workouts Cleared");
+        }
+    }
+}
+
 app.post('/selectedExercise', express.json(), postSelectedWorkout);
 app.post('/addSaved', express.json(), addSaved);
 app.post('/saveWorkout', express.json(), saveWorkout);
 
+app.get('/clearSaved/:user', clearSavedWorkouts);
 app.get('/addPreset/:id', populateWorkoutWithPreset);
 app.get('/getWorkout', getWorkout);
 app.get('/instructions', getInstructions);

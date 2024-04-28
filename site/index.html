@@ -16,8 +16,8 @@
     <div class="colour-pallete five"></div>
     <section id="login-grid">
         <div id="login" class="header-button">Log in</div>
-        <div id="save-workout-container">
-            <div id="save-workout" class="header-button">💾</div>
+        <div id="save-workout-button-container">
+            <div id="save-workout" class="header-button hidden">💾</div>
         </div>
     </section>
 </header>
@@ -27,6 +27,9 @@
 </div>
 
 <div id="control-panel" class="hidden">  
+</div>
+
+<div id="save-workout-panel" class="hidden">  
 </div>
 
 <div id="login-panel" class="hidden panel"> 
@@ -48,7 +51,7 @@
     </section>
 </div>
 
-<div class="panel instructions">
+<div class="panel instructions hidden">
     <h2 id="instruction-header">Need Help?</h2>
     <p id="instruction-text">Hover over or press and hold an excerise and instructions will appear here on how to do it.</p>
 </div>
@@ -80,6 +83,17 @@
         <div class="control-button" id="next-button">&#45;&#45;&#62;</div>
         <p id="next-workout">Next Workout: <code id="next-workout-text">Not Specified</code></p>
         <div class="control-button" id="cancel-button">Cancel</div>
+    </section>
+</template>
+
+<template id="save-workout-template">
+    <section id="save-workout-container" class="panel">
+        <div id="close-save-workout">X</div>
+        <h1 id="save-workout-text">Save Your Workout</h1>
+        <input disabled type="text" id="save-workout-name" name="name" placeholder="Name*">
+        <input disabled type="text" id="save-workout-desc" name="description" placeholder="Description*">  
+        <p>*required</p>
+        <div id="save-button" class="button">No Workout Selected</div> 
     </section>
 </template>
 

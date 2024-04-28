@@ -23,7 +23,7 @@ body{
 }
 
 #logged-in-as{
-    margin: 0 1rem 0.5rem 1rem;
+    margin: 0.5rem 1rem 0.5rem 1rem;
     opacity: 60%;
 }
 
@@ -44,11 +44,50 @@ body{
                          "desc workout"
                          "start clear";
 
-    padding: 1rem;
+    padding: 2rem;
 }
 
 #workout-builder{
     margin-top:0.5em;
+}
+
+#save-workout-container{
+    text-align: left;
+}
+
+#close-save-workout{
+    border: solid 0.2rem;
+    border-radius: 0.5rem;
+    width: 1rem;
+    padding: 0.5rem;
+    float: right;
+    margin: 0.5rem 0.5rem 0 0;
+    background-color: var(--zero);
+    text-align: center;
+    font-weight: bold;
+}
+
+#save-workout-container > h1{
+    margin: 1rem; 
+}
+
+#save-workout-container > p{
+    font-size: 0.5em;
+    font-weight: bold;
+    margin: 0 0 0 1rem;
+    opacity: 50%;
+}
+
+#save-workout-container > input {
+    font-size: 1.5rem;
+    margin: 0.5rem 0 0.5rem 1rem;
+    border: solid 0.2rem;
+    border-radius: 1rem;
+    padding: 0 0 0 0.5rem;
+}
+
+#save-button{
+    margin: 1rem; 
 }
 
 #build-title{
@@ -188,6 +227,10 @@ nav{
     margin: 0.3rem;
 }
 
+.saved-button{
+    padding: 0.5em; 
+}
+
 .saved-button-content{
     user-select: none;
     pointer-events: none;
@@ -298,8 +341,12 @@ nav{
     width: 5em;
 }
 
-#save-workout-container{
-    text-align: right;
+#hide-login{
+    padding:0.5rem;
+}
+
+#save-workout-button-container{
+    text-align: center;
     grid-area: save;
 }
 
@@ -351,24 +398,34 @@ nav{
     to   { transform : translateY( -10px );}
 }
 
-@media (max-width: 1000px) {
-    
-    header{
-        margin: 0.5rem;
-     }
-}
-
 @media (min-width: 1000px) {
     :root{
         font-size: large;
     }
 
     #login{
-        width: 5em;
+        width: 5rem;
     }
     
     #save-workout{
         width:1.5rem;
+    }
+
+    #save-workout-container > p{
+        font-size: 1rem;
+    }
+
+    .instructions{
+        padding: 1rem;
+        float: right;
+        margin: 0 1rem 0 0;
+        width: 45%;
+    }
+
+    #custom-button-panel{
+        width: 45%;
+        float: left;
+        padding:0 0 1rem 0;
     }
 }
 

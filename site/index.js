@@ -6,6 +6,7 @@ let paused = true;
 let timerState = '00000';
 let presetSelected = false;
 let currentLoggedIn = undefined;
+let currentPanel = undefined;
 
 // Above are the global variables used to keep track of the state of the application
 
@@ -16,14 +17,16 @@ function main() {
     buildAll();
     showPanel('workoutBuilder');
     clearWorkout();
+    clearSavedWorkouts('mellissapearl');
 }
 
 function buildAll(){
-    buildLogin()
+    buildLogin();
     buildShowWorkout();
     buildWorkoutControl();
     buildCustomButtons();
     buildPresetButtons();
+    buildSaveWorkout();
 }
 
 // Grabs handles for important elements/templates and puts them into an object called respective of their type for later reference
@@ -32,6 +35,7 @@ function mainHandles() {
     elements.workoutBuilder = document.querySelector('#workout-builder');
     elements.customButtonPanel = document.querySelector('#custom-button-panel');
     elements.presetButtonPanel = document.querySelector('#preset-button-panel');
+    elements.saveWorkoutPanel = document.querySelector('#save-workout-panel');
     elements.loginPanel = document.querySelector('#login-panel');
     elements.customContainer = document.querySelector('.custom-button-container');
     elements.presetContainer = document.querySelector('.preset-button-container');
@@ -44,6 +48,7 @@ function mainHandles() {
     templates.showWorkout = document.querySelector('#show-workout-template');
     templates.workoutControl = document.querySelector('#workout-control-template');
     templates.customButton = document.querySelector('#custom-button-template');
+    templates.saveWorkout = document.querySelector('#save-workout-template');
 }
 
 // Grabs important handles on the workout controller that couldnt be before the start button clicked
@@ -98,6 +103,25 @@ function buildWorkoutControl(){
     elements.panels['workoutControl'] = elements.controlPanel;
 }
 
+function buildSaveWorkout(){
+    const template = templates.saveWorkout;
+    
+    const panel = template.content.cloneNode(true);
+    elements.saveWorkoutPanel.append(panel);
+
+    const saveButton = document.querySelector('#save-button');
+    const showPanelButton = document.querySelector('#save-workout');
+    const exitButton = document.querySelector('#close-save-workout');
+
+    saveButton.addEventListener('click', saveWorkoutButton); 
+    showPanelButton.addEventListener('click', showSaveWorkoutPanel);
+    exitButton.addEventListener('click', closeSaveWorkoutPanel);
+
+
+    // Adds the panel to the panels object in elements for later reference
+    elements.panels['saveWorkout'] = elements.saveWorkoutPanel;
+}
+
 async function buildLogin(){
     elements.panels['login'] = elements.loginPanel;
     const response = await fetch('accounts');
@@ -128,7 +152,6 @@ async function buildLogin(){
     backButton.addEventListener('click', loginBackButton);
     loginButton.addEventListener('click', loginButtonFunction);
     saveButton.addEventListener('click', saveWorkoutButton);
-
 }
 
 // Builds the custom workout buttons within the buttons panel from the custom button template
@@ -218,6 +241,7 @@ async function startWorkout(){
     // If the workout has at least four exercises in it then the panel will switch to the workout control panel
     } else {
         paused = true;
+        showHideSaveButton()
         bumpBoxes();
         hideAllButtons();
         hidePanel('workoutBuilder');
@@ -226,6 +250,7 @@ async function startWorkout(){
         controlHandles();
         populateWorkoutControl(workout)
         showCurrentWorkout()
+        showInstructionsPanel()
         elements.timerBody.style.fontSize = "8em";
     }
 }
@@ -235,10 +260,12 @@ function showCustomButtons(){
     hidePresetButtons();
     resetInstructions();
     clearWorkout();
+    showInstructionsPanel()
 }
 
 function showPresetButtons(){
     elements.presetButtonPanel.classList.remove('hidden');
+    hideInstructionsPanel();
     hideCustomButtons();
     resetInstructions();
     clearWorkout();
@@ -316,6 +343,7 @@ function loginAsUser(e){
         currentLoggedIn = e.target.dataset.username;
         document.querySelector('#logged-in-as').textContent = 'Logged in as: ' + currentLoggedIn; 
         addUserWorkouts(e.target.dataset.username)
+        showHideSaveButton();
     }
 }
 
@@ -336,6 +364,7 @@ function signOut(){
     elements.loginButton.textContent = 'Log in';
     removeUserButtons();
     clearWorkout();
+    showHideSaveButton()
 }
 
 // Event for adding a selected exercise to the custom workout
@@ -433,17 +462,71 @@ async function addPreset(e){
 
 async function saveWorkoutButton(){
     const workout = await getWorkout();
-    if (workout.length > 4){
-        saveWorkout();
+    const nameInput = document.querySelector('#save-workout-name');
+    const descInput = document.querySelector('#save-workout-desc');
+    workoutName = nameInput.value;
+    workoutDesc = descInput.value;
+    if (workout.length > 4 && nameInput.value && descInput.value){
+        workoutName = nameInput.value;
+        workoutDesc = descInput.value;
+        nameInput.value = "";
+        descInput.value = "";
+        let exerciseNames = [];
+        for(exercise of workout){
+            exerciseNames.push(exercise.name);
+        }
+        saveWorkout(workoutName, workoutDesc, exerciseNames);
+        hidePanel('saveWorkout');
+        showPanel('workoutBuilder');
+        addUserWorkouts(currentLoggedIn);
     }
 }
 
+async function clearSavedWorkouts(user){
+    const response = await fetch('clearSaved/' + user);
+    if (response.ok){
+        console.log(await response.json());
+    }
+}
+
+async function showSaveWorkoutPanel(){
+    const workout = await getWorkout();
+    hidePresetButtons();
+    hideCustomButtons();
+    hidePanel(currentPanel);
+    showPanel('saveWorkout');
+    if (workout.length > 4){
+        const nameInput = document.querySelector('#save-workout-name');
+        const descInput = document.querySelector('#save-workout-desc');
+        const saveButton = document.querySelector('#save-button');
+        nameInput.removeAttribute('disabled');
+        descInput.removeAttribute('disabled');
+        saveButton.textContent = "Save";
+    }
+}
+
+function closeSaveWorkoutPanel(){
+    hidePanel('saveWorkout');
+    showPanel('workoutBuilder');
+    elements.loginButton.classList.remove('hidden');
+}
 // ------------------ All Functions used outside buttons ------------------ //
 
+function hideInstructionsPanel(){
+    document.querySelector('.instructions').classList.add('hidden');
+}
+
+function showInstructionsPanel(){
+    document.querySelector('.instructions').classList.remove('hidden');
+}
+
+function showHideSaveButton(){
+    const button = document.querySelector('#save-workout');
+    button.classList.toggle('hidden');
+}
 // TODO: Make tmeplate to add name and description to workout
-async function saveWorkout(){
-    const workout = await getWorkout();
-    const payload = { name: "tempName", description: "tempDesc", includes: workout, user: currentLoggedIn};
+async function saveWorkout(workoutName, workoutDesc, workout){
+    const payload = { name: workoutName, description: workoutDesc, includes: workout, user: currentLoggedIn};
     const response = await fetch('saveWorkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -499,7 +582,7 @@ function awaitThis(box, x){
     });
 }
 
-const showPanel = (panelName) => { elements.panels[panelName].classList.remove('hidden'); }
+const showPanel = (panelName) => { elements.panels[panelName].classList.remove('hidden');  currentPanel = panelName;}
 
 const hidePanel = (panelName) => { elements.panels[panelName].classList.add('hidden'); }
 
@@ -647,6 +730,7 @@ async function getCurrentInstruction(exerciseName){
 function endWorkout() {
     elements.timerBody.style.fontSize = "3em";
     elements.timerBody.textContent = "Congratulations on completing your workout!";
+    showHideSaveButton()
     document.querySelector('#cancel-button').textContent = "Back to Home";
 }
 
