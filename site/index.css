@@ -253,6 +253,7 @@ nav{
 #current-workout-text{
     grid-area: title; 
     font-size: 3rem;
+    margin:auto;
 }
 
 #timer{
@@ -287,7 +288,7 @@ nav{
 
 #next-workout{
     grid-area: next-workout;
-    margin: 0 1rem 0 1rem;
+    margin: 1rem;
     font-size: 2rem;
 }
 
@@ -297,6 +298,8 @@ nav{
 }
 
 .instructions{
+    position:absolute;
+    bottom: auto;
     padding: 1rem;
 }
 
@@ -417,9 +420,10 @@ nav{
 
     .instructions{
         padding: 1rem;
-        float: right;
-        margin: 0 1rem 0 0;
-        width: 45%;
+        margin:  0 1rem;
+        height: 10rem;
+        overflow: scroll;
+        position: static;   
     }
 
     #custom-button-panel{

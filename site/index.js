@@ -11,6 +11,8 @@ let currentPanel = undefined;
 // Above are the global variables used to keep track of the state of the application
 
 window.addEventListener('load', main);
+//window.addEventListener('load', registerServiceWorker);
+
 
 function main() {
     mainHandles();
@@ -27,6 +29,12 @@ function buildAll(){
     buildCustomButtons();
     buildPresetButtons();
     buildSaveWorkout();
+}
+
+async function registerServiceWorker() {
+    if (navigator.serviceWorker) {
+      await navigator.serviceWorker.register('./sw.js');
+    }
 }
 
 // Grabs handles for important elements/templates and puts them into an object called respective of their type for later reference
@@ -241,7 +249,6 @@ async function startWorkout(){
     // If the workout has at least four exercises in it then the panel will switch to the workout control panel
     } else {
         paused = true;
-        showHideSaveButton()
         bumpBoxes();
         hideAllButtons();
         hidePanel('workoutBuilder');
@@ -495,7 +502,7 @@ async function showSaveWorkoutPanel(){
     hideCustomButtons();
     hidePanel(currentPanel);
     showPanel('saveWorkout');
-    if (workout.length > 4){
+    if (workout.length >= 4){
         const nameInput = document.querySelector('#save-workout-name');
         const descInput = document.querySelector('#save-workout-desc');
         const saveButton = document.querySelector('#save-button');
@@ -520,9 +527,12 @@ function showInstructionsPanel(){
     document.querySelector('.instructions').classList.remove('hidden');
 }
 
-function showHideSaveButton(){
-    const button = document.querySelector('#save-workout');
-    button.classList.toggle('hidden');
+async function showHideSaveButton(){
+    const workout = await getWorkout();
+    if (workout.length >= 4 && currentLoggedIn != undefined);{
+        const button = document.querySelector('#save-workout');
+        button.classList.toggle('hidden');
+    }
 }
 // TODO: Make tmeplate to add name and description to workout
 async function saveWorkout(workoutName, workoutDesc, workout){
@@ -730,7 +740,6 @@ async function getCurrentInstruction(exerciseName){
 function endWorkout() {
     elements.timerBody.style.fontSize = "3em";
     elements.timerBody.textContent = "Congratulations on completing your workout!";
-    showHideSaveButton()
     document.querySelector('#cancel-button').textContent = "Back to Home";
 }
 

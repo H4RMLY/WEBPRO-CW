@@ -12,14 +12,14 @@ await readWorkouts()
 await readAccounts()
 
 async function readWorkouts(){
-    await fs.readFile("./workouts.json")
+    await fs.readFile("./external-content/workouts.json")
     .then(function (data) {
         workouts = JSON.parse(data);
     })
 }
 
 async function readAccounts(){
-    await fs.readFile("./accounts.json")
+    await fs.readFile("./external-content/accounts.json")
     .then(function (data) {
         accounts = JSON.parse(data);
     });  
@@ -27,12 +27,12 @@ async function readAccounts(){
 
 async function writeWorkouts(){
     const json = JSON.stringify(accounts)
-    await fs.writeFile("./workouts.json", json);
+    await fs.writeFile("./external-content/workouts.json", json);
 }
 
 async function writeAccounts(){
     const json = JSON.stringify(accounts)
-    await fs.writeFile("./accounts.json", json);
+    await fs.writeFile("./external-content/accounts.json", json);
 }
 
 let selectedWorkouts = [];
