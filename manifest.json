@@ -1,11 +1,12 @@
 {
-    "name": "High Intensity Training App",
+    "name": "HIIT",
     "short_name": "HIIT",
     "icons": [
       {
-        "src": "./assets/HIT-CW-Icon.png",
+        "src": "./assets/HIT-CW-Icon-square.png",
         "type": "image/png",
-        "sizes": "144x144"
+        "sizes": "192x192",
+        "purpose": "any"
       }
     ],
     "display": "standalone",

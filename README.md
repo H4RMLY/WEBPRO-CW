@@ -11,7 +11,7 @@ This is a HIT workout web application that allows you to create your own workout
 ## How to use
 When the page has loaded you should be shown the workout builder with two buttons allowing you to show either preset workouts or individual exercises that you can add to your workout. Once you select at least four individual exercises or one preset then you can click start to change the screen to the workout controller. 
 
-You can navigate through the workout using the arrow buttons and start the timer for each exercise using the play button. You can press the play button again to pause the timer. In order to navigate through the workout the timer must be paused. If needed you can cancel the workout which will clear it and bring you back to the builder. Currently when you finish your workout it will just change the text within the cancel button to make it clear that the workout has ended and that is how you get out of the controller. 
+You can navigate through the workout using the arrow buttons and start the timer for each exercise using the play button. You can press the play button again to pause the timer. In order to navigate through the workout the timer must be paused. If needed you can cancel the workout which will clear it and bring you back to the builder. Currently when you finish your workout it will just change the text within the cancel button to make it clear that the workout has ended and that is how you return home. 
 
 ## Feature Plans
 At the moment I plan to create an account system so you can save your workouts and use them as presets.
@@ -29,6 +29,12 @@ Under the exercise selection buttons there is a box that will show a description
 
 ### Workout Control
 This is the second main feature of the app and allows the user to navigate through their created workout out. Also included is a built in timer which tracks seconds and milliseconds that can be started and paused at any time. The Exercise description is still present here and will automatically show how to do the current excercise in the workout. 
+
+### Logins
+This is an extra feature that allows the user to switch between preset accounts. When a user logs into an account if they have any saved workouts they will be added to the preset workout button panel in the workout builder and a save button at the top of the screen will appear. 
+
+### Save workout
+This is another extra feature that's tied to the account system. When a user logs into an account a save button will appear in the top right of the screen allowing the user to save the current selected workout. If this is clicked before a workout has been created/selected then the text fields will be blank and the save button will be unclickable. Once at least four exercises are in the selected workout and the user named the workout and given is a description it can then be saved to the account and will appear under the preset buttons. This is also available when the user is performing their workout as well.
 
 ### Final Key Feature Name/Description.
 Words.

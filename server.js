@@ -1,7 +1,7 @@
 import express from 'express';
 import { promises as fs } from 'fs';
 
-const webRoot = 'site';
+const webRoot = './';
 const app = express();
 app.use(express.static(webRoot));
 
@@ -50,7 +50,7 @@ function postSelectedWorkout(req, res) {
         index: req.body.index,
     };
     selectedWorkouts.push(newWorkout);
-    assignIndexes()
+    assignIndexes();
     res.json(selectedWorkouts);
 }
 
@@ -149,9 +149,22 @@ async function clearSavedWorkouts(req, res){
     }
 }
 
+async function createUser(req, res){
+    const newUser = {
+        username: req.body.user,
+        name: req.body.name,
+        savedWorkouts: []
+    };
+    accounts.users.push(newUser);
+    await writeAccounts();
+    await readAccounts();
+    res.json(newUser);
+}
+
 app.post('/selectedExercise', express.json(), postSelectedWorkout);
 app.post('/addSaved', express.json(), addSaved);
 app.post('/saveWorkout', express.json(), saveWorkout);
+app.post('/createUser', express.json(), createUser);
 
 app.get('/clearSaved/:user', clearSavedWorkouts);
 app.get('/addPreset/:id', populateWorkoutWithPreset);
