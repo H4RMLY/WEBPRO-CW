@@ -13,8 +13,9 @@ let currentPanel = undefined;
 window.addEventListener('load', main);
 
 function main() {
-    mainHandles();
+    templatesAndPanels();
     buildAll();
+    elementHandles();
     showPanel('workoutBuilder');
     clearWorkout();
 }
@@ -28,26 +29,38 @@ function buildAll(){
     buildSaveWorkout();
 }
 
-// Grabs handles for important elements/templates and puts them into an object called respective of their type for later reference
-function mainHandles() {
+// Grabs handles for all panels and templates
+function templatesAndPanels(){
+    templates.userWorkout = document.querySelector('#saved-button-template');
+    templates.presetButton = document.querySelector('#preset-button-template');
+    templates.showWorkout = document.querySelector('#show-workout-template');
+    templates.workoutControl = document.querySelector('#workout-control-template');
+    templates.customButton = document.querySelector('#custom-button-template');
+    templates.saveWorkout = document.querySelector('#save-workout-template');
+    templates.accountButton = document.querySelector('#account-button-template');
+
     elements.controlPanel = document.querySelector('#control-panel');
     elements.workoutBuilder = document.querySelector('#workout-builder');
     elements.customButtonPanel = document.querySelector('#custom-button-panel');
     elements.presetButtonPanel = document.querySelector('#preset-button-panel');
     elements.saveWorkoutPanel = document.querySelector('#save-workout-panel');
     elements.loginPanel = document.querySelector('#login-panel');
+    elements.panels = {};
+}
+
+// Grabs handles for important elements and puts them into the elements object
+function elementHandles() {
     elements.customContainer = document.querySelector('.custom-button-container');
     elements.presetContainer = document.querySelector('.preset-button-container');
+    elements.loginContainer = document.querySelector('.login-container');
     elements.instructionHeader = document.querySelector('#instruction-header');
     elements.instructionText = document.querySelector('#instruction-text');
     elements.loginButton = document.querySelector('#login');
-    elements.panels = {};
-    elements.buttons = [];
-    
-    templates.showWorkout = document.querySelector('#show-workout-template');
-    templates.workoutControl = document.querySelector('#workout-control-template');
-    templates.customButton = document.querySelector('#custom-button-template');
-    templates.saveWorkout = document.querySelector('#save-workout-template');
+    elements.selectedExercisesText =  document.querySelector('#selected-workouts-text');
+    elements.playButton = document.querySelector('#play-button');
+    elements.loggedInAs = document.querySelector('#logged-in-as');
+    elements.instructionsPanel = document.querySelector('.instructions');
+    elements.cancelButton = document.querySelector('#cancel-button');
 }
 
 // Grabs important handles on the workout controller that couldnt be before the start button clicked
@@ -98,10 +111,10 @@ function buildWorkoutControl(){
     nextButton.addEventListener('click', nextExercise);
     backButton.addEventListener('click', previousExercise); 
 
-    // Adds the panel to the panels object in elements for later reference
     elements.panels['workoutControl'] = elements.controlPanel;
 }
 
+// Builds the save workout panel
 function buildSaveWorkout(){
     const template = templates.saveWorkout;
     
@@ -116,11 +129,10 @@ function buildSaveWorkout(){
     showPanelButton.addEventListener('click', showSaveWorkoutPanel);
     exitButton.addEventListener('click', closeSaveWorkoutPanel);
 
-
-    // Adds the panel to the panels object in elements for later reference
     elements.panels['saveWorkout'] = elements.saveWorkoutPanel;
 }
 
+// Builds the login panel
 async function buildLogin(){
     elements.panels['login'] = elements.loginPanel;
     const response = await fetch('accounts');
@@ -128,14 +140,10 @@ async function buildLogin(){
     const createUserButton = document.querySelector('#create-user-button');
     createUserButton.addEventListener('click', createUser);
 
-    
     let accounts;
     if(response.ok){ accounts = await response.json(); }
 
-    
-    for(const account of accounts){
-        buildAccountButton(account)
-    }
+    for(const account of accounts){ buildAccountButton(account); }
 
     const backButton = document.querySelector('#hide-login');
     const loginButton = document.querySelector('#login'); 
@@ -145,8 +153,9 @@ async function buildLogin(){
     saveButton.addEventListener('click', saveWorkoutButton);
 }
 
+// This is for creating the buttons for each acccount on the login panel
 function buildAccountButton(account){
-    const buttonTemplate = document.querySelector('#login-button-template');
+    const buttonTemplate = templates.accountButton;
     const button = buttonTemplate.content.cloneNode(true);
     const name = button.querySelector('.account-name');
     const username = button.querySelector('.account-username');
@@ -155,11 +164,9 @@ function buildAccountButton(account){
     username.textContent = account.username;
 
     body.dataset.username = account.username;
-    elements.buttons[account.username] = body;
-
     body.addEventListener('click', loginAsUser);
 
-    document.querySelector('.login-container').append(button);
+    elements.loginContainer.append(button);
 }
 
 // Builds the custom workout buttons within the buttons panel from the custom button template
@@ -171,7 +178,7 @@ async function buildCustomButtons(){
     if(response.ok){ exercises = await response.json(); }
 
     // Creates a button for every exercise stored in the server with its name and time to complete
-    const buttonTemplate = document.querySelector('#custom-button-template')
+    const buttonTemplate = templates.customButton;
     for (const exercise of exercises){
         const button = buttonTemplate.content.cloneNode(true);  
         const name = button.querySelector('.exercise-name');
@@ -183,9 +190,6 @@ async function buildCustomButtons(){
         
         body.dataset.name = exercise.name;
         body.dataset.time = exercise.time; 
-
-        // Adds each button to an array called buttons in the elements object for later reference
-        elements.buttons[exercise.name] = body;
 
         // Adds events to each button
         body.addEventListener('click', addToWorkout);
@@ -203,7 +207,7 @@ async function buildPresetButtons(){
     let presets;
     if(response.ok){ presets = await response.json(); }
     
-    const buttonTemplate = document.querySelector('#preset-button-template')
+    const buttonTemplate = templates.presetButton;
     for (const preset of presets){
         const button = buttonTemplate.content.cloneNode(true);
         const difficulty = button.querySelector('.difficulty');
@@ -226,14 +230,46 @@ async function buildPresetButtons(){
 
         body.addEventListener('click', addPreset);
 
-        elements.buttons[preset.id] = body;
-
         elements.presetContainer.append(button);
+    }
+}
+
+// Builds a button from the users saved workouts and adds it to the preset panel
+async function addUserWorkouts(username){
+    const response = await fetch('savedExercises/' + username);
+
+    let savedWorkouts;
+    if(response.ok){ savedWorkouts = await response.json(); }
+    if (savedWorkouts.length > 0){
+        const buttonTemplate = templates.userWorkout;
+        for(const workout of savedWorkouts){
+            const button = buttonTemplate.content.cloneNode(true);
+            const body = button.querySelector('.saved-button');
+            const name = button.querySelector('.saved-name');
+            const description = button.querySelector('.saved-description');
+            const included = button.querySelector('.saved-exercises');
+
+            name.textContent = workout.name;
+            description.textContent = workout.description;
+
+            let includedExercises = 'Included: ';
+            for (const exercise of workout.includes){ includedExercises += exercise + ', '; }
+            includedExercises = includedExercises.substring(0, includedExercises.length - 2);
+            included.textContent = includedExercises;
+            
+            body.dataset.name = workout.name;
+            body.dataset.user = username;
+
+            body.addEventListener('click', addSavedWorkout);
+
+            elements.presetContainer.append(button);
+        }
     }
 }
 
 // ------------------ All Functions for event listeners ------------------ //
 
+// Creates a new user from the inputted name and username on the login panel
 async function createUser(){
     const usernameInput = document.querySelector('#create-user-username');
     const nameInput = document.querySelector('#create-user-name');
@@ -246,33 +282,34 @@ async function createUser(){
     });
     if (response.ok) {
         const newAccount = await response.json(); 
-        buildAccountButton(newAccount); }
+        buildAccountButton(newAccount); 
+    }
 }
 // Event handler for the start workout button on the build workout panel
 async function startWorkout(){
     const workout = await getWorkout();
 
-    let selectedExercisesText = document.querySelector('#selected-workouts-text');
     // Checks if the workout has at least four exercises in it
     if (workout.length < 4) {
-        let oldText = selectedExercisesText.textContent;
-        selectedExercisesText.textContent = 'Please select at least four workouts or one preset workout.';
+        let oldText = await elements.selectedExercisesText.textContent;
+        elements.selectedExercisesText.textContent = 'Please select at least four workouts or one preset workout.';
         setTimeout(function () {
-            selectedExercisesText.textContent = oldText;
+            elements.selectedExercisesText.textContent = oldText;
         }, 1200);
     // If the workout has at least four exercises in it then the panel will switch to the workout control panel
     } else {
+        controlHandles();
         paused = true;
+        elements.timerBody.style.fontSize = "8em";
+        elements.loginButton.classList.add('hidden');
         bumpBoxes();
         hideAllButtons();
         hidePanel('workoutBuilder');
         showPanel('workoutControl');
         resetInstructions();
-        controlHandles();
         populateWorkoutControl(workout);
         showCurrentWorkout();
         showInstructionsPanel();
-        elements.timerBody.style.fontSize = "8em";
     }
 }
 
@@ -299,18 +336,17 @@ async function clearWorkout(){
     if (response.ok) {
         updatedWorkoutList = await response.json();
     }
-    clearSelection()
+    clearSelection();
     showSelectedWorkout(updatedWorkoutList);
 }
 
 // Event handler for the pause button on the workout control panel
 function timerControl(){
-    const button = document.querySelector('#play-button');
     paused = !paused;
     if (paused) {
-        button.textContent = "⯈";   
+        elements.playButton.textContent = "⯈";   
     } else {
-        button.textContent = "ǁ";
+        elements.playButton.textContent = "ǁ";
         timer(timerState);
     }
 }
@@ -319,11 +355,11 @@ function timerControl(){
 function cancelWorkout(){
     paused = true;
     elements.loginButton.classList.remove('hidden');
-    bumpBoxes()
+    bumpBoxes();
     hidePanel('workoutControl');
     showPanel('workoutBuilder');
-    resetInstructions()
-    clearWorkout()
+    resetInstructions();
+    clearWorkout();
 }
 
 // Allows navigation to the next exercise using the previous button
@@ -335,7 +371,7 @@ async function nextExercise(){
         if (workout[workoutControl.next.index + 1] === undefined){
             workoutControl.next = {name: "Finished", time: "00000", index: "0"};
         } else {
-            workoutControl.next = workout[workoutControl.next.index + 1]
+            workoutControl.next = workout[workoutControl.next.index + 1];
         }
         workoutControl.previous = workout[workoutControl.current.index - 1];
         showCurrentWorkout();
@@ -362,9 +398,10 @@ function loginAsUser(e){
     if (currentLoggedIn === undefined){
         elements.loginButton.textContent = 'Sign out';
         currentLoggedIn = e.target.dataset.username;
-        document.querySelector('#logged-in-as').textContent = 'Logged in as: ' + currentLoggedIn; 
-        addUserWorkouts(e.target.dataset.username)
+        elements.loggedInAs.textContent = 'Logged in as: ' + currentLoggedIn; 
+        addUserWorkouts(e.target.dataset.username);
         showHideSaveButton();
+        loginBackButton();
     }
 }
 
@@ -376,16 +413,17 @@ function loginButtonFunction(){
         return;
     }
     showPanel('login');
+    hideAllButtons();
     hidePanel('workoutBuilder');
 }
 
 function signOut(){
     currentLoggedIn = undefined;
-    document.querySelector('#logged-in-as').textContent = 'Not currently logged in';
+    elements.loggedInAs.textContent = 'Not currently logged in';
     elements.loginButton.textContent = 'Log in';
     removeUserButtons();
     clearWorkout();
-    showHideSaveButton()
+    showHideSaveButton();
 }
 
 // Event for adding a selected exercise to the custom workout
@@ -429,11 +467,10 @@ async function addPreset(e){
         // If preset has already been selected this code blocks you from adding another one
         } else {
             e.target.classList.toggle("clicked");
-            let selectedExercisesText = document.querySelector('#selected-workouts-text')
-            let oldText = selectedExercisesText.textContent;
-            selectedExercisesText.textContent = 'You can only select one preset';
+            let oldText = elements.selectedExercisesText.textContent;
+            elements.selectedExercisesText.textContent = 'You can only select one preset';
             setTimeout(function () {
-                selectedExercisesText.textContent = oldText;
+                elements.selectedExercisesText.textContent = oldText;
             }, 1200);
         }
     // Allows you to deselect a selected preset by selecting it again like with the custom buttons
@@ -468,11 +505,10 @@ async function addPreset(e){
             }
         } else {
             e.target.classList.toggle("clicked");
-            let selectedExercisesText = document.querySelector('#selected-workouts-text')
-            let oldText = selectedExercisesText.textContent;
-            selectedExercisesText.textContent = 'You can only select one preset';
+            let oldText = await elements.selectedExercisesText.textContent;
+            elements.selectedExercisesText.textContent = 'You can only select one preset';
             setTimeout(function () {
-                selectedExercisesText.textContent = oldText;
+                elements.selectedExercisesText.textContent = oldText;
             }, 1200);
         }
     } else {
@@ -499,8 +535,7 @@ async function saveWorkoutButton(){
         saveWorkout(workoutName, workoutDesc, exerciseNames);
         hidePanel('saveWorkout');
         showPanel('workoutBuilder');
-        hideCustomButtons();
-        hidePresetButtons();
+        hideAllButtons();
         addUserWorkouts(currentLoggedIn);
     }
 }
@@ -514,8 +549,7 @@ async function clearSavedWorkouts(user){
 
 async function showSaveWorkoutPanel(){
     const workout = await getWorkout();
-    hidePresetButtons();
-    hideCustomButtons();
+    hideAllButtons();
     hidePanel(currentPanel);
     showPanel('saveWorkout');
     if (workout.length >= 4){
@@ -536,11 +570,11 @@ function closeSaveWorkoutPanel(){
 // ------------------ All Functions used outside buttons ------------------ //
 
 function hideInstructionsPanel(){
-    document.querySelector('.instructions').classList.add('hidden');
+    elements.instructionsPanel.classList.add('hidden');
 }
 
 function showInstructionsPanel(){
-    document.querySelector('.instructions').classList.remove('hidden');
+    elements.instructionsPanel.classList.remove('hidden');
 }
 
 async function showHideSaveButton(){
@@ -550,7 +584,7 @@ async function showHideSaveButton(){
         button.classList.toggle('hidden');
     }
 }
-// TODO: Make tmeplate to add name and description to workout
+// This posts the workout the user wants to save to the server
 async function saveWorkout(workoutName, workoutDesc, workout){
     const payload = { name: workoutName, description: workoutDesc, includes: workout, user: currentLoggedIn};
     const response = await fetch('saveWorkout', {
@@ -559,38 +593,6 @@ async function saveWorkout(workoutName, workoutDesc, workout){
         body: JSON.stringify(payload),
     });
     if (response.ok) {console.log('Workout Saved');}
-}
-
-async function addUserWorkouts(username){
-    const response = await fetch('savedExercises/' + username);
-
-    let savedWorkouts;
-    if(response.ok){ savedWorkouts = await response.json(); }
-    if (savedWorkouts.length > 0){
-        const buttonTemplate = document.querySelector('#saved-button-template')
-        for(const workout of savedWorkouts){
-            const button = buttonTemplate.content.cloneNode(true);
-            const body = button.querySelector('.saved-button')
-            const name = button.querySelector('.saved-name');
-            const description = button.querySelector('.saved-description');
-            const included = button.querySelector('.saved-exercises');
-
-            name.textContent = workout.name;
-            description.textContent = workout.description;
-
-            let includedExercises = 'Included: ';
-            for (const exercise of workout.includes){ includedExercises += exercise + ', '; }
-            includedExercises = includedExercises.substring(0, includedExercises.length - 2);
-            included.textContent = includedExercises;
-            
-            body.dataset.name = workout.name;
-            body.dataset.user = username;
-
-            body.addEventListener('click', addSavedWorkout);
-
-            elements.presetContainer.append(button);
-        }
-    }
 }
 
 // Animation timing for boxes at the top of the screen
@@ -621,7 +623,7 @@ function removeUserButtons(){
     for (const button of buttons){ button.remove(); }
 }
 
-const hideAllButtons = () =>{ hideCustomButtons(); hidePresetButtons(); elements.loginButton.classList.add('hidden'); }
+const hideAllButtons = () =>{ hideCustomButtons(); hidePresetButtons();}
 
 /* Populates the workout control object with the first two exercises
  The workoutControl object keeps track of the current next and previous exercises globally */
@@ -651,17 +653,16 @@ async function postWorkout(exerciseName, exerciseTime, exerciseIndex) {
 
 // Code for showing the current contents of the custom workout
 function showSelectedWorkout(content) {
-    let selectedExercisesText = document.querySelector('#selected-workouts-text')
     let selectedExercises = 'Currently Selected: ';
     // This handles the formatting depending on if the custom workout is empty or not
     if (content.length > 0) {
         for (const exercise of content) {
             selectedExercises += exercise.name + ', ';
         }
-        selectedExercises = selectedExercises.substring(0, selectedExercises.length - 2);
-        selectedExercisesText.textContent = selectedExercises;
+        elements.selectedExercises = selectedExercises.substring(0, selectedExercises.length - 2);
+        elements.selectedExercisesText.textContent = selectedExercises;
     } else {
-        selectedExercisesText.textContent = 'Your selected workouts will appear here!';
+        elements.selectedExercisesText.textContent = 'Your selected workouts will appear here!';
     }
 }
 
@@ -720,7 +721,7 @@ async function timer() {
 /* Formatting for the workout control panel which handles the name of the current and next exercise,
  the timer before it has started and the instructions bellow the control panel */
 async function showCurrentWorkout(){
-    timerState = workoutControl.current.time
+    timerState = workoutControl.current.time;
     elements.currentWorkoutText.textContent = workoutControl.current.name;
     elements.nextWorkoutText.textContent = workoutControl.next.name;
     if (workoutControl.current.name === "Finished"){
@@ -756,6 +757,6 @@ async function getCurrentInstruction(exerciseName){
 function endWorkout() {
     elements.timerBody.style.fontSize = "3em";
     elements.timerBody.textContent = "Congratulations on completing your workout!";
-    document.querySelector('#cancel-button').textContent = "Back to Home";
+    elements.cancelButton.textContent = "Back to Home";
 }
 

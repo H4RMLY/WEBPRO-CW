@@ -4,20 +4,26 @@
 This is a HIT workout web application that allows you to create your own workout or choose from a selection of preset sessions.
 
 ## Installation
-1. CD into WEBPRO-CW-main if not already
-2. Type 'npm i' into your console to install dependencies
-3. Type 'npm start' into console to run the application
+1. CD into WEBPRO-CW if not already.
+2. Type 'npm i' into your console to install dependencies.
+3. Type 'npm start' into console to run the application.
+4. In your browser type localhost:8080 to access the app.
 
 ## How to use
-When the page has loaded you should be shown the workout builder with two buttons allowing you to show either preset workouts or individual exercises that you can add to your workout. Once you select at least four individual exercises or one preset then you can click start to change the screen to the workout controller. 
+When the page has loaded you should be shown the workout builder with two buttons allowing you to show either preset workouts or individual exercises that you can add to your workout. If you are logged into an account this will allow you to save your selected workout and access it as if it is a preset. Once you select at least four individual exercises or one preset then you can click start to change the screen to the workout controller. 
 
 You can navigate through the workout using the arrow buttons and start the timer for each exercise using the play button. You can press the play button again to pause the timer. In order to navigate through the workout the timer must be paused. If needed you can cancel the workout which will clear it and bring you back to the builder. Currently when you finish your workout it will just change the text within the cancel button to make it clear that the workout has ended and that is how you return home. 
 
 ## Feature Plans
-At the moment I plan to create an account system so you can save your workouts and use them as presets.
+- Make the ability to remove workouts from the users account.
+- Possibly let the user add custom exercises to the button panel if they are logged in.
+- Allow users to select colour pallets.
+- Find a better way to show exercise instructions in the custom workout button panel as the user has to scroll to the bottom of the page to see.
+
+## Known issues
+- Im not sure how to reliably re-create this issue but occasionally when selecting an exercise in the custom button panel it will change to styling to be selected but will not add it to the workout. This is fixed by de-selecting and selecting it again.
 
 ## Key features
-Overall the main change is that I have re-built the whole app so it is more inline with the one page brief instead of using multiple pages. 
 
 ### Workout Creation
 This feature allows you to create a workout comprised of at least four exercises or one preset workout.
@@ -35,9 +41,6 @@ This is an extra feature that allows the user to switch between preset accounts.
 
 ### Save workout
 This is another extra feature that's tied to the account system. When a user logs into an account a save button will appear in the top right of the screen allowing the user to save the current selected workout. If this is clicked before a workout has been created/selected then the text fields will be blank and the save button will be unclickable. Once at least four exercises are in the selected workout and the user named the workout and given is a description it can then be saved to the account and will appear under the preset buttons. This is also available when the user is performing their workout as well.
-
-### Final Key Feature Name/Description.
-Words.
 
 ## AI
 Currently the only usage of AI within this project has been to gain ideas for which exercises to implement and to create the descriptions for each.
@@ -116,12 +119,3 @@ Remember to keep your shoulders down and back throughout the movement, and avoid
 
 #### Utilisation:
 Like the last response I used this for the instructions for the tricep dip excersise. Again I only used the first four steps and none of the extra description as I felt it wasnt relevant.
-
->  how can I integrate QRST here?
-The suggestion worked with minor modification.
-
-### Prompts to develop GHIJ (exmaple)
-For the GHIJ feature I ...
-
->  this is an example prompt given to a chatbot
-words words words etc.

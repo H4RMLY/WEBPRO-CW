@@ -1,1 +1,48 @@
-{"users":[{"username":"mellissapearl","name":"Melissa Butler","savedWorkouts":[{"name":"Monday Afternoon","description":"My Monday afternoon workout.","includes":["Lunges","Step Ups","Push Ups","Chest Dips","Lat Raises"]},{"name":"Weights","description":"All my weight exercises","includes":["Shoulder Presses","Goblet Squats","Single-Leg Deadlifts","Dumbbell Deadlifts","Bent Over Dumbbell Rows","Dumbbell Chest Presses"]},{"name":"Test","description":"Test","includes":["Tricep Dips","Bicep Curls","Push Ups","Lunges"]}]},{"username":"HARMLY","name":"Harry Morley","savedWorkouts":[{"name":"Extra Hard","description":"Very Hard workout","includes":["Advanced Plank","Single-Leg Deadlifts","Goblet Squats","Bent Over Dumbbell Rows","Burpees","Chest Dips"]}]},{"username":"howard45","name":"John Howard","savedWorkouts":[]}]}
+{
+    "users":[
+        {
+            "username":"mellissapearl",
+            "name":"Melissa Butler",
+            "savedWorkouts":[
+                {
+                    "name":"Monday Afternoon",
+                    "description":"My Monday afternoon workout.",
+                    "includes":["Lunges","Step Ups","Push Ups","Chest Dips","Lat Raises"]
+                },
+                {
+                    "name":"Weights",
+                    "description":"All my weight exercises",
+                    "includes":["Shoulder Presses","Goblet Squats","Single-Leg Deadlifts","Dumbbell Deadlifts","Bent Over Dumbbell Rows","Dumbbell Chest Presses"]
+                },
+                {
+                    "name":"Test",
+                    "description":"Test",
+                    "includes":["Tricep Dips","Bicep Curls","Push Ups","Lunges"]
+                }]
+        },
+        {
+            "username":"HARMLY",
+            "name":"Harry Morley",
+            "savedWorkouts":[
+                {
+                    "name":"Extra Hard",
+                    "description":"Very Hard workout",
+                    "includes":["Advanced Plank","Single-Leg Deadlifts","Goblet Squats","Bent Over Dumbbell Rows","Burpees","Chest Dips"]
+                }]
+        },
+        {
+            "username":"howard45",
+            "name":"John Howard",
+            "savedWorkouts":[]
+        },
+        {
+            "username":"Test User",
+            "name":"TestUser",
+            "savedWorkouts":[
+                {
+                    "name":"My new workout",
+                    "description":"Yeeerp",
+                    "includes":["Bicep Curls","Tricep Dips","Dumbbell Deadlifts","High Knees"]
+                }]
+        }]
+}
