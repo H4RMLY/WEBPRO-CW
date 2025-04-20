@@ -1,4 +1,4 @@
-# HIIT up2097531
+# University Coursework - High Intensity Training Web App 🏃
 
 ## Description
 This is a HIT workout web application that allows you to create your own workout or choose from a selection of preset sessions.
