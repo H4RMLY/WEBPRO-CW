@@ -1,5 +1,5 @@
-# University Coursework - High Intensity Training Web App 🏃
-
+# Web Programming Coursework - High Intensity Training Web App 🏃
+# Grade: 1st Class
 ## Description
 This is a HIT workout web application that allows you to create your own workout or choose from a selection of preset sessions.
 
